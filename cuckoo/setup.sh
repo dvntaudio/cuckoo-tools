@@ -28,6 +28,8 @@ if [ ! -d "~/src" ]; then
 fi
 
 # Setup for Cuckoo
-sudo adduser cuckoo
+if [ ! -d "/home/cuckoo" ]; then
+    sudo adduser cuckoo
+fi
 sudo usermod -G libvirt cuckoo
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
