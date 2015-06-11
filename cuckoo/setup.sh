@@ -19,7 +19,7 @@ sudo pip install django maec \
     git+https://github.com/kbandla/pydeep#egg=pydeep
 
 # Get volatility and cuckoo
-if [ ! -d "~/src" ]; then
+if [ ! -d ~/src ]; then
     mkdir ~/src && cd ~/src
     git clone https://github.com/volatilityfoundation/volatility.git
     git clone https://github.com/cuckoobox/cuckoo.git
