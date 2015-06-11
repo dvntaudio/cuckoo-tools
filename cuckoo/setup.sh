@@ -12,7 +12,7 @@ sudo apt-get install python python-sqlalchemy python-bson python-dpkt \
     python-bottle python-pefile python-chardet qemu-kvm libvirt-bin \
     bridge-utils tcpdump libcap2-bin python-pip virt-manager libtool automake \
     autoconf libfuzzy2 libfuzzy-dev libxml2 libxslt1-dev \
-    postgresql-server-dev-9.1 curl libcurl4-gnutls-dev
+    postgresql-server-dev-9.4 curl libcurl4-gnutls-dev
 
 # Install globaly
 sudo pip install django pydepp pyfuzzy maec
