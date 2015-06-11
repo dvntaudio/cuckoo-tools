@@ -7,15 +7,16 @@ sudo apt-get update && sudo apt-get dist-upgrade
 sudo apt-get install vim git ctags vim-doc vim-scripts
 
 # Tools for Cuckoo
-sudo apt-get install python python-sqlalchemy python-bson python-dpkt \
-    python-jinja2 python-magic python-pymongo python-gridfs python-libvirt \
-    python-bottle python-pefile python-chardet qemu-kvm libvirt-bin \
-    bridge-utils tcpdump libcap2-bin python-pip virt-manager libtool automake \
-    autoconf libfuzzy2 libfuzzy-dev libxml2 libxslt1-dev \
+sudo apt-get install python python-dev python-sqlalchemy python-bson \
+    python-dpkt python-jinja2 python-magic python-pymongo python-gridfs \
+    python-libvirt python-bottle python-pefile python-chardet qemu-kvm \
+    libvirt-bin bridge-utils tcpdump libcap2-bin python-pip virt-manager \
+    libtool automake autoconf libfuzzy2 libfuzzy-dev libxml2 libxslt1-dev \
     postgresql-server-dev-9.4 curl libcurl4-gnutls-dev
 
 # Install globaly
-sudo pip install django pydepp pyfuzzy maec
+sudo pip install django pyfuzzy maec \
+    git+https://github.com/kbandla/pydeep#egg=pydeep
 
 # Get volatility and cuckoo
 if [ ! -d "~/src" ]; then
