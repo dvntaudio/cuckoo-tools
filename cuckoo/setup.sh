@@ -15,7 +15,7 @@ sudo apt-get install python python-dev python-sqlalchemy python-bson \
     postgresql-server-dev-9.4 curl libcurl4-gnutls-dev
 
 # Install globaly
-sudo pip install django pyfuzzy maec \
+sudo pip install django maec \
     git+https://github.com/kbandla/pydeep#egg=pydeep
 
 # Get volatility and cuckoo
