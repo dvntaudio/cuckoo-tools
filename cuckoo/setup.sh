@@ -22,8 +22,8 @@ if [ ! -d "~/src" ]; then
     mkdir ~/src && cd ~/src
     git clone https://github.com/volatilityfoundation/volatility.git
     git clone https://github.com/cuckoobox/cuckoo.git
-    wget http://sourceforge.net/projects/ssdeep/files/ssdeep-2.10/ssdeep-2.10.tar.gz/download
-    cd ..
+    wget -O ssdeep-2.13.tar.gz http://sourceforge.net/projects/ssdeep/files/ssdeep-2.13/ssdeep-2.13.tar.gz/download
+    tar xvfz ssdeep-2.13.tar.gz
 fi
 
 # Setup for Cuckoo
