@@ -14,6 +14,9 @@ sudo apt-get -y install python python-pip python-dev libffi-dev libssl-dev \
     mongodb qemu-kvm libvirt-bin bridge-utils yara python-yara libyara3 \
     libyara-dev python-libvirt tcpdump libcap2-bin
 
+# Install python packages globaly
+sudo pip install django maec pycrypto ujson mitmproxy distorm3 pytz
+
 # Get volatility and cuckoo
 if [ ! -d ~/src ]; then
     mkdir ~/src && cd ~/src
@@ -26,13 +29,12 @@ fi
 #    wget -O ssdeep-2.13.tar.gz http://sourceforge.net/projects/ssdeep/files/ssdeep-2.13/ssdeep-2.13.tar.gz/download
 #    tar xvfz ssdeep-2.13.tar.gz
 
-# Install globaly
-sudo pip install django maec pycrypto ujson mitmproxy distorm3 pytz
 #    git+https://github.com/kbandla/pydeep#egg=pydeep
 
 # Setup for Cuckoo
 if [ ! -d "/home/cuckoo" ]; then
     sudo adduser cuckoo
+    sudo usermod -a -G libvirt cuckoo
 fi
 
 # Let the cuckoo user access tcpdump
