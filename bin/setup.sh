@@ -11,7 +11,7 @@ sudo apt-get -y install open-vm-tools-desktop fuse
 
 # Tools for Cuckoo
 sudo apt-get -y install python python-pip python-dev libffi-dev libssl-dev \
-    mongodb qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils \
+    mongodb qemu-kvm libvirt-bin bridge-utils \
     python-libvirt tcpdump libcap2-bin
 
 # Get volatility and cuckoo
