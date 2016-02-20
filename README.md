@@ -29,6 +29,10 @@ Install basics for Cuckoo
 * http://www.pythonware.com/products/pil/
 * https://raw.githubusercontent.com/cuckoosandbox/cuckoo/master/agent/agent.py
 
+Run the following to fix python for pil on x64
+
+    reg copy HKLM\SOFTWARE\Python HKLM\SOFTWARE\Wow6432Node\Python /s
+
 Save _agent.py_ as _agent.pyw_ and add it to the _Startup_ folder.
 
 Install some old apps.
