@@ -7,10 +7,10 @@ sudo apt-get update && sudo apt-get dist-upgrade
 sudo apt-get -y install vim git ctags vim-doc vim-scripts
 
 # Tools for Vmware
-sudo apt-get install open-vm-tools-desktop fuse
+sudo apt-get -y install open-vm-tools-desktop fuse
 
 # Tools for Cuckoo
-sudo apt-get install python python-pip python-dev libffi-dev libssl-dev \
+sudo apt-get -y install python python-pip python-dev libffi-dev libssl-dev \
     mongodb qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils \
     python-libvirt tcpdump libcap2-bin
 
