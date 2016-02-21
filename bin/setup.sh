@@ -56,6 +56,10 @@ if [ ! -d ~/src/cuckoo ]; then
     cd ~/src
     git clone https://github.com/cuckoobox/cuckoo.git
     cd cuckoo
+    mkdir storage
+    sudo setfacl -R -m user:cuckoo:7 storage
+    sudo setfacl -d -R -m user:cuckoo:7 storage
+    mkdir log
     sudo pip install -r requirements.txt
     ./utils/community.py -wafb 2.0
     cd
