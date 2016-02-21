@@ -26,12 +26,13 @@ fi
 
 sudo suricata --unix-socket -D > /dev/null 2>&1
 
+sudo chown cuckoo:cuckoo /var/run/suricata/
+
 while [ ! -e /var/run/suricata/suricata-command.socket ]; do
     sleep 1
 done
 
-sudo chown reuteras:reuteras /var/run/suricata/
-sudo chown reuteras:reuteras /var/run/suricata/suricata-command.socket
+sudo chown cuckoo:cuckoo /var/run/suricata/suricata-command.socket
 
 cd ~/src/cuckoo
 ./cuckoo.py -d >> log/cuckoo-cmd.log 2>&1 &
