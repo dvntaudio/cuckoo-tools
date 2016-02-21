@@ -1,49 +1,36 @@
 cuckoo-tools
 ============
 
-WORK IN PROGRESS!
-=================
-
-Tools and configs for my Cuckoo installation.
-
-This repo contains scripts to install Cuckoo 2.0-dev and related tools such as:
+This a collection of scripts that installs Cuckoo 2.0-dev and required tools such as:
 
 * Volatility
 * Suricata
 
-WORK IN PROGRESS!
-=================
-
 Setup Cuckoo
 ============
 
-I use this script on Debian 8.3. I used the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso). Basic setup with LVM and no print server. The installation instructions below assumes that the username is _cuckoo_.
+The script is only tested on Debian 8.3. I installed Debian from the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso). Basic setup with LVM and no print server. The installation instructions below assumes that the username is _cuckoo_.
 
 When you're done with the steps below you should have a working copy of Cuckoo 2.0-dev (at the time I write this).
 
-First thing to do is install sudo. 
+First thing to do is install sudo and git.
 
     su -
-    apt-get install -y sudo
+    apt-get install -y sudo git
     usermod -a -G sudo cuckoo
 
 You have to logout for the changes of group membership to take effect.
 
-This is also a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/).
+This is also a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/). Don't forget to change screen settings and enable folder sharing before taking the snapshot.
 
-    sudo apt-get install -y git
     git clone https://github.com/reuteras/cuckoo-tools.git
     cd cuckoo-tools
     ./bin/setup.sh      # go get a cup of coffe...
 
-Optional steps to use my _.bashrc_ and _.vimrc_
+Optional steps to use my _.bashrc_ and _.vimrc_.
 
     make
     . ~/.bashrc
-
-If there is any problems with pip run the following command:
-
-    sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
 Configure Cuckoo
 ================
@@ -51,6 +38,8 @@ Configure Cuckoo
 Run the command below to install a default configuration for a Win 7 x86-64 machine.
 
     ./bin/config.sh
+
+Now is a good time to reboot to make sure VMware hgfs works.
 
 Install a Windows machine
 =========================
@@ -64,13 +53,15 @@ Otherwise you can use:
     mkdir $HOME/shared
     sudo mount -t vmhgfs .host:/cuckoo $HOME/shared
 
+Before you begin the installation remember that you have to enable virtualiztion in the vm. In VMware Fusion this is done under advanced settings for processors & memory.
+
 To begin the installation of the Windows machine.
 
     virt-manager 
 
-Name the machine win7_x64 for the defaults in this repo to work. I will not explain the steps needed here.
+Name the machine win7_x64 for the defaults in this repository to work. I will not explain the steps needed here.
 
-Install some basic tools for Cuckoo.
+Install some basic tools for Cuckoo. When IE starts remember to turn of SmartScreen Filter.
 
 * https://www.python.org/getit/ - Python 2.7.x. Install 32-bit version.
 * http://www.pythonware.com/products/pil/
@@ -87,30 +78,43 @@ Install some old apps. Examples below:
 
 Remember to
 
-* Turn of automatic updates.
-* Turn of the Windows firewall.
+* Turn off automatic updates.
+* Turn off the Windows firewall.
 * Disable UAC.
 * Disable NTP.
 * Change screen resolution to 1024x768 or higher.
 * Change background.
 * Add some files and bookmarks.
-* Note the ip and enter it in cuckoo/conf/kvm.conf.
+
+Note the ip address and enter it in cuckoo/conf/kvm.conf.
+
+    vim cuckoo/conf/kvm.conf
+
+Start _agent.pyw_ and take a snapshot of the running instance of Windows. Call the snapshot _snapshot1_.
 
 Using Cuckoo
 ============
 
-First update rules for suricata:
+First update rules for Suricata:
 
-    ./update-rules.sh
+    ./bin/update-rules.sh
 
 Start Cuckoo:
 
     ./bin/start.sh
 
-To test your installation you can download malware from http://www.tekdefense.com/downloads/malware-samples/. I recommend [340s.exe.zip](http://www.tekdefense.com/downloads/malware-samples/340s.exe.zip) which should trigger some Suricata rules. The files are password protedcted with password "infected".
+To test your installation you can download malware from http://www.tekdefense.com/downloads/malware-samples/. I recommend [340s.exe.zip](http://www.tekdefense.com/downloads/malware-samples/340s.exe.zip) which should trigger some Suricata rules. The files are password protected with the password "infected".
 
 TODO
 ====
 
 * Setup https://downloads.cuckoosandbox.org/docs/usage/utilities.html#smtp-sinkhole
+* More tests...
+
+Fixes
+=====
+
+If there is any problems with pip run the following command:
+
+    sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
