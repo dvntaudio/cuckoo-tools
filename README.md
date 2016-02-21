@@ -17,7 +17,11 @@ WORK IN PROGRESS!
 Setup Cuckoo
 ============
 
-I use this script on Debian 8.3. I used the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso) and the first thing to do is to install sudo. The installation assumes that the username is _cuckoo_.
+I use this script on Debian 8.3. I used the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso). Basic setup with LVM and no print server. The installation instructions below assumes that the username is _cuckoo_.
+
+When you're done with the steps below you should have a working copy of Cuckoo 2.0-dev (at the time I write this).
+
+First thing to do is install sudo. 
 
     su -
     apt-get install -y sudo
@@ -25,21 +29,21 @@ I use this script on Debian 8.3. I used the [mini.iso](http://ftp.se.debian.org/
 
 You have to logout for the changes of group membership to take effect.
 
-This is a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/).
+This is also a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/).
 
     sudo apt-get install -y git
     git clone https://github.com/reuteras/cuckoo-tools.git
     cd cuckoo-tools
-    ./bin/setup.sh
-
-If there is any problems with pip run the following command:
-
-    sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
+    ./bin/setup.sh      # go get a cup of coffe...
 
 Optional steps to use my _.bashrc_ and _.vimrc_
 
     make
     . ~/.bashrc
+
+If there is any problems with pip run the following command:
+
+    sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
 Configure Cuckoo
 ================
@@ -102,6 +106,8 @@ First update rules for suricata:
 Start Cuckoo:
 
     ./bin/start.sh
+
+To test your installation you can download malware from http://www.tekdefense.com/downloads/malware-samples/. I recommend [340s.exe.zip](http://www.tekdefense.com/downloads/malware-samples/340s.exe.zip) which should trigger some Suricata rules. The files are password protedcted with password "infected".
 
 TODO
 ====
