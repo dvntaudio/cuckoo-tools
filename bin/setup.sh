@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 sudo apt-get update && sudo apt-get dist-upgrade
 
 # General tools
@@ -38,9 +40,10 @@ if [ ! -d ~/src/ssdeep-2.13 ]; then
 fi
 
 # Install python packages globaly
-sudo pip install django maec pycrypto ujson mitmproxy distorm3 pytz \
+sudo pip install maec pycrypto ujson mitmproxy distorm3 pytz \
     m2crypto simplejson pydeep netlib configargparse pyparsing \
-    construct h2 click html2text watchdog tornado urwid blinker
+    construct h2 click html2text watchdog tornado urwid blinker \
+    cryptography==1.0 
 
 # Install volatility
 if [ ! -d ~/src/volatility ]; then
