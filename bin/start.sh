@@ -13,11 +13,11 @@ STATE=$(sudo virsh net-list | grep default | awk '{print $2}')
 AUTO=$(sudo virsh net-list | grep default | awk '{print $3}')
 
 if [ "$STATE" != "active" ]; then
-    virsh net-start default
+    sudo virsh net-start default
 fi
 
 if [ "$AUTO" == "no" ]; then
-    virsh net-autostart default
+    sudo virsh net-autostart default
 fi
 
 if [ -e /var/run/suricata/suricata-command.socket ]; then
