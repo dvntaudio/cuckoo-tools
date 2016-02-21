@@ -24,7 +24,7 @@ if [ -e /var/run/suricata/suricata-command.socket ]; then
     sudo rm -f /var/run/suricata/suricata-command.socket
 fi
 
-suricata --unix-socket -D
+sudo suricata --unix-socket -D > /dev/null 2>&1
 
 while [ ! -e /var/run/suricata/suricata-command.socket ]; do
     sleep 1
