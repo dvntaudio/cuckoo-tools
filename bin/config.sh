@@ -8,7 +8,7 @@ sed -i -e "s/ip = 192.168.56.1/ip = $HOSTIP/" $ROOTDIR/cuckoo.conf
 
 sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata
 
-mitmproxy > /dev/null 2>&1 & 
+mitmproxy >> ~/src/cuckoo/log/mitmproxy 2>&1 & 
 
 MITM_PID=$!
 
