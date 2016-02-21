@@ -70,7 +70,7 @@ default-log-dir: /var/log/suricata/
 # the file name of the socket.
 unix-command:
   enabled: yes
-  filename: cuckoo.socket
+  filename: suricata-command.socket
 
 # Configure the type of alert (and other) logging you would like.
 outputs:
@@ -148,7 +148,7 @@ outputs:
 
   # a line based log of TLS handshake parameters (no alerts)
   - tls-log:
-      enabled: no  # Log TLS connections.
+      enabled: yes  # Log TLS connections.
       filename: tls.log # File to store TLS logs.
       append: yes
       #filetype: regular # 'regular', 'unix_stream' or 'unix_dgram'
@@ -157,7 +157,7 @@ outputs:
 
   # a line based log of DNS requests and/or replies (no alerts)
   - dns-log:
-      enabled: no
+      enabled: yes
       filename: dns.log
       append: yes
       #filetype: regular # 'regular', 'unix_stream' or 'unix_dgram'
@@ -183,7 +183,7 @@ outputs:
   # - encrypted streams after the key exchange
   #
   - pcap-log:
-      enabled:  no
+      enabled:  yes
       filename: log.pcap
 
       # File size limit.  Can be specified in kb, mb, gb.  Just a number
@@ -224,7 +224,7 @@ outputs:
 
   # a line based alerts log similar to fast.log into syslog
   - syslog:
-      enabled: no
+      enabled: yes
       # reported identity to syslog. If ommited the program name (usually
       # suricata) will be used.
       #identity: "suricata"
@@ -250,7 +250,7 @@ outputs:
   # - http request / response body sizes. Again set to 0 for optimal results.
   # - rules that contain the "filestore" keyword.
   - file-store:
-      enabled: no       # set to yes to enable
+      enabled: yes       # set to yes to enable
       log-dir: files    # directory to store the files
       force-magic: no   # force logging magic on all stored files
       force-md5: no     # force logging of md5 checksums
@@ -258,7 +258,7 @@ outputs:
 
   # output module to log files tracked in a easily parsable json format
   - file-log:
-      enabled: no
+      enabled: yes
       filename: files-json.log
       append: yes
       #filetype: regular # 'regular', 'unix_stream' or 'unix_dgram'
