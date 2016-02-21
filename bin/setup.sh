@@ -39,12 +39,6 @@ if [ ! -d ~/src/ssdeep-2.13 ]; then
     cd
 fi
 
-# Install python packages globaly
-sudo pip install maec pycrypto ujson mitmproxy distorm3 pytz \
-    m2crypto simplejson pydeep netlib configargparse pyparsing \
-    construct h2 click html2text watchdog tornado urwid blinker \
-    cryptography==1.0 
-
 # Install volatility
 if [ ! -d ~/src/volatility ]; then
     cd ~/src
@@ -67,6 +61,14 @@ if [ ! -d ~/src/cuckoo ]; then
     ./utils/community.py -wafb 2.0
     cd
 fi
+
+# Clean up
+sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
+
+# Install python packages globaly
+sudo pip install maec pycrypto ujson mitmproxy distorm3 pytz \
+    m2crypto simplejson pydeep netlib configargparse pyparsing \
+    construct h2 click html2text watchdog tornado urwid blinker
 
 sudo usermod -a -G libvirt cuckoo
 
