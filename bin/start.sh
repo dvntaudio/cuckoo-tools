@@ -2,7 +2,7 @@
 
 MOUNTP=$(vmware-hgfsclient)
 
-if [ !  -z "$var" ]; then
+if [ !  -z "$MOUNTP" ]; then
     if [ ! -d ~/shared ]; then
         mkdir ~/shared
     fi
