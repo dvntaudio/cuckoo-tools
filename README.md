@@ -3,6 +3,9 @@ cuckoo-tools
 
 Tools and configs for my Kali installation.
 
+WORK IN PROGRESS!
+=================
+
 Setup Cuckoo
 ============
 
@@ -39,7 +42,7 @@ Name the machine win7_x64 for example. When done remember to take a snapshot of 
 
 Install basics for Cuckoo
 
-* https://www.python.org/getit/ - Python 2.7.x
+* https://www.python.org/getit/ - Python 2.7.x. Install 32-bit version.
 * http://www.pythonware.com/products/pil/
 * https://raw.githubusercontent.com/cuckoosandbox/cuckoo/master/agent/agent.py
 
