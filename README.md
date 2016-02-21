@@ -17,11 +17,13 @@ WORK IN PROGRESS!
 Setup Cuckoo
 ============
 
-I use this script on Debian 8.3. I used the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso) and the first thing to do is to install sudo.
+I use this script on Debian 8.3. I used the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso) and the first thing to do is to install sudo. The installation assumes that the username is _cuckoo_.
 
     su -
     apt-get install -y sudo
     usermod -a -G sudo cuckoo
+
+You have to logout for the changes of group membership to take effect.
 
 This is a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/).
 
@@ -34,12 +36,16 @@ If there is any problems with pip run the following command:
 
     sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
+Optional steps to use my _.bashrc_ and _.vimrc_
+
+    make
+    . ~/.bashrc
+
 Configure Cuckoo
 ================
 
 Run the command below to install a default configuration for a Win 7 x86-64 machine.
 
-    # cd ~/cuckoo-tools
     ./bin/config.sh
 
 Install a Windows machine
