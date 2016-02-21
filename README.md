@@ -6,9 +6,15 @@ Tools and configs for my Kali installation.
 Setup Cuckoo
 ============
 
-I tested this script on Debian 8.3
+I tested this script on Debian 8.3. I used the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso) and the first thing to do is fix sudo.
 
-    sudo apt-get install git
+    su -
+    apt-get install -y sudo
+    usermod -a -G sudo cuckoo
+
+This is a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/).
+
+    sudo apt-get install -y git
     git clone https://github.com/reuteras/cuckoo-tools.git
     cd cuckoo-tools
     ./bin/setup.sh
@@ -57,6 +63,7 @@ Remember to
 * Disable UAC
 * Change screen resolution to 1024x768 or higher
 * Note the ip and enter it in cuckoo/conf/kvm.conf
+* Disable NTP
 
 
 Using Cuckoo
