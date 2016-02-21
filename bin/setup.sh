@@ -39,7 +39,7 @@ fi
 
 # Install python packages globaly
 sudo pip install django maec pycrypto ujson mitmproxy distorm3 pytz \
-    m2crypto simplejson pydeep python-pil netlib configargparse pyparsing \
+    m2crypto simplejson pydeep netlib configargparse pyparsing \
     construct h2 click html2text watchdog tornado urwid blinker
 
 # Install volatility
