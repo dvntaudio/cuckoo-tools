@@ -9,7 +9,13 @@ Setup Cuckoo
 I tested this script on Debian 8.3
 
     sudo apt-get install git
-    git clone
+    git clone https://github.com/reuteras/cuckoo-tools.git
+    cd cuckoo-tools
+    ./bin/setup.sh
+
+If there is any problems with pip run the following command:
+
+    sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
 Install Windows machine
 =======================
@@ -21,7 +27,9 @@ Share a folder with your vm and mount it:
 
 Start the installation of the Windows machine:
 
-    virt-install --name win7_x64 --memory 2048 --cdrom en_windows_7_enterprise_with_sp1_x64_dvd_u_677651.iso --boot cdrom,hd --os-variant win7 --disk size=30
+    virt-manager 
+
+Name the machine win7_x64 for example. When done remember to take a snapshot of the machine when it is running.
 
 Install basics for Cuckoo
 
@@ -46,6 +54,9 @@ Remember to
 
 * Turn of updates
 * Turn of firewall
+* Disable UAC
+* Change screen resolution to 1024x768 or higher
+* Note the ip and enter it in cuckoo/conf/kvm.conf
 
 
 Using Cuckoo
@@ -60,3 +71,8 @@ Start Cuckoo web interface at http://127.0.0.1:8000/:
 
     cd ~/src/cuckoo/web
     python manage.py runserver
+
+TODO
+====
+
+* Setup https://downloads.cuckoosandbox.org/docs/usage/utilities.html#smtp-sinkhole
