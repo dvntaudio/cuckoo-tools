@@ -1,7 +1,15 @@
 cuckoo-tools
 ============
 
-Tools and configs for my Kali installation.
+WORK IN PROGRESS!
+=================
+
+Tools and configs for my Cuckoo installation.
+
+This repo contains scripts to install Cuckoo 2.0-dev and related tools such as:
+
+* Volatility
+* Suricata
 
 WORK IN PROGRESS!
 =================
@@ -9,7 +17,7 @@ WORK IN PROGRESS!
 Setup Cuckoo
 ============
 
-I tested this script on Debian 8.3. I used the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso) and the first thing to do is fix sudo.
+I use this script on Debian 8.3. I used the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso) and the first thing to do is to install sudo.
 
     su -
     apt-get install -y sudo
@@ -26,33 +34,41 @@ If there is any problems with pip run the following command:
 
     sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
-Install Windows machine
-=======================
+Configure Cuckoo
+================
 
-Share a folder with your vm and mount it:
+Run the command below to install a default configuration for a Win 7 x86-64 machine.
 
-    mkdir $HOME/Shared
-    sudo mount -t vmhgfs .host:/cuckoo $HOME/Shared
+    # cd ~/cuckoo-tools
+    ./bin/config.sh
 
-Start the installation of the Windows machine:
+Install a Windows machine
+=========================
+
+Share a folder with your vm and mount it. If you have installed my .bashrc you can just run
+
+    shared
+
+Otherwise you can use:
+
+    mkdir $HOME/shared
+    sudo mount -t vmhgfs .host:/cuckoo $HOME/shared
+
+To begin the installation of the Windows machine.
 
     virt-manager 
 
-Name the machine win7_x64 for example. When done remember to take a snapshot of the machine when it is running.
+Name the machine win7_x64 for the defaults in this repo to work. I will not explain the steps needed here.
 
-Install basics for Cuckoo
+Install some basic tools for Cuckoo.
 
 * https://www.python.org/getit/ - Python 2.7.x. Install 32-bit version.
 * http://www.pythonware.com/products/pil/
 * https://raw.githubusercontent.com/cuckoosandbox/cuckoo/master/agent/agent.py
 
-Run the following to fix python for pil on x64
-
-    reg copy HKLM\SOFTWARE\Python HKLM\SOFTWARE\Wow6432Node\Python /s
-
 Save _agent.py_ as _agent.pyw_ and add it to the _Startup_ folder.
 
-Install some old apps.
+Install some old apps. Examples below:
 
 * http://www.oldapps.com/java.php?old_java=15362?download - Java 7 Update 65 (x64)
 * http://www.oldapps.com/flash_player.php?old_flash_player=15631?download - Adobe Flash Player 15.0.0.152 (All Versions)
@@ -61,28 +77,28 @@ Install some old apps.
 
 Remember to
 
-* Turn of updates
-* Turn of firewall
-* Disable UAC
-* Change screen resolution to 1024x768 or higher
-* Note the ip and enter it in cuckoo/conf/kvm.conf
-* Disable NTP
-
+* Turn of automatic updates.
+* Turn of the Windows firewall.
+* Disable UAC.
+* Disable NTP.
+* Change screen resolution to 1024x768 or higher.
+* Change background.
+* Add some files and bookmarks.
+* Note the ip and enter it in cuckoo/conf/kvm.conf.
 
 Using Cuckoo
 ============
 
+First update rules for suricata:
+
+    ./update-rules.sh
+
 Start Cuckoo:
 
-    cd ~/src/cuckoo
-    ./cuckoo.py
-
-Start Cuckoo web interface at http://127.0.0.1:8000/:
-
-    cd ~/src/cuckoo/web
-    python manage.py runserver
+    ./bin/start.sh
 
 TODO
 ====
 
 * Setup https://downloads.cuckoosandbox.org/docs/usage/utilities.html#smtp-sinkhole
+
