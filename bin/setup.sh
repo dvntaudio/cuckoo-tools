@@ -36,6 +36,8 @@ if [ ! -d ~/src/ssdeep-2.13 ]; then
     ./configure
     make
     sudo make install
+    cd ..
+    rm -rf ssdeep-2.13 ssdeep-2.13.tar.gz
     cd
 fi
 
