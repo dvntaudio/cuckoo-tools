@@ -33,6 +33,10 @@ done
 
 sudo chown cuckoo:cuckoo /var/run/suricata/suricata-command.socket
 
+if grep "enabled = yes" ~/src/cuckoo/conf/vpn.conf > /dev/null; then
+    sudo ~/src/cuckoo/utils/rooter.py
+fi    
+
 cd ~/src/cuckoo
 ./cuckoo.py -d >> log/cuckoo-cmd.log 2>&1 &
 cd web
