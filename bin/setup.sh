@@ -79,7 +79,7 @@ sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 
 # Configure Cuckoo
 ROOTDIR=~/src/cuckoo/conf
-HOSTIP=$(/bin/hostname -I)
+HOSTIP=$(ip a s dev eth0 | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 
 cp ~/cuckoo-tools/files/*.conf $ROOTDIR
 sed -i -e "s/ip = 192.168.56.1/ip = $HOSTIP/" $ROOTDIR/cuckoo.conf

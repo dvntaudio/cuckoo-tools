@@ -64,6 +64,8 @@ fi
 
 cd ~/src/cuckoo
 echo -n "Starting Cuckoo server."
+HOSTIP=$(ip a s dev eth0 | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
+sed -i -e "s/ip = .*/ip = $HOSTIP/" ~/src/cuckoo/conf/cuckoo.conf
 ./cuckoo.py -d >> log/cuckoo-cmd.log 2>&1 &
 echo "Done."
 cd web
