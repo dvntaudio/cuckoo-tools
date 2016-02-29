@@ -24,25 +24,41 @@ if [ -e /var/run/suricata/suricata-command.socket ]; then
     sudo rm -f /var/run/suricata/suricata-command.socket
 fi
 
+echo -n "Starting Suricata. "
 sudo suricata --unix-socket -D > /dev/null 2>&1
+echo "Done."
 
+echo -n "Waiting for Suricata socket. "
 while [ ! -e /var/run/suricata/suricata-command.socket ]; do
     sleep 1
     sudo chown cuckoo:cuckoo /var/run/suricata/ > /dev/null 2>&1
 done
+echo "Done."
 
 sudo chown cuckoo:cuckoo /var/run/suricata/suricata-command.socket
 
 if grep "enabled = yes" ~/src/cuckoo/conf/vpn.conf > /dev/null; then
-    sudo ~/src/cuckoo/utils/rooter.py &
+    echo -n "Staring rooter script as root. "
+    sudo ~/src/cuckoo/utils/rooter.py -v -g cuckoo > \
+        ~/src/cuckoo/log/rooter.log 2>&1 &
+    sleep 3
+    echo "Done."
 fi    
 
 cd ~/src/cuckoo
+echo -n "Starting Cuckoo server."
 ./cuckoo.py -d >> log/cuckoo-cmd.log 2>&1 &
+echo "Done."
 cd web
-python manage.py runserver >> ../log/web.log 2>&1 &
-cd ..
-sleep 2
 
+echo -n "Starting cuckoo web."
+python manage.py runserver >> ../log/web.log 2>&1 &
+echo "Done."
+cd ..
+
+echo -n "Waiting to start Iceeasel. "
+sleep 2
+echo -n "Starting. "
 iceweasel http://127.0.0.1:8000 >> log/iceweasel 2>&1 &
+echo "Done."
 
