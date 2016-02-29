@@ -2,6 +2,15 @@
 
 MOUNTP=$(vmware-hgfsclient)
 
+function update_rules(){
+    RULESDIR=$(mktemp -d)
+    cd $RULESDIR
+    wget http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz
+    tar xvfz emerging.rules.tar.gz
+    sudo mv rules/* /etc/suricata/rules/
+    rm -rf $RULESDIR
+}
+
 if [ !  -z "$MOUNTP" ]; then
     if [ ! -d ~/shared ]; then
         mkdir ~/shared
@@ -23,6 +32,14 @@ fi
 if [ -e /var/run/suricata/suricata-command.socket ]; then
     sudo rm -f /var/run/suricata/suricata-command.socket
 fi
+
+if [ ! -e /etc/suricata/rules/tor.rules ]; then
+    update_rules
+fi
+
+LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -ctime 1)
+
+[ ! -z $LAST_UPDATE_RULES ] && update_rules
 
 echo -n "Starting Suricata. "
 sudo suricata --unix-socket -D > /dev/null 2>&1
