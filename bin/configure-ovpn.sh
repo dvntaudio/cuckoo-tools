@@ -39,5 +39,5 @@ mv ~/src/cuckoo/conf/vpn.conf{,.off}
 mv ~/src/cuckoo/conf/vpn.conf{.on,}
 
 cd /etc/openvpn
-sudo openvpn --config ovpn.conf 
+sudo openvpn --config ovpn.conf &
 
