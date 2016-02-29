@@ -31,5 +31,11 @@ echo "echo 999 ovpn >> /etc/iproute2/rt_tables" >> $ROOTCMD
 sudo bash $ROOTCMD
 rm -f $ROOTCMD
 
+mv ~/src/cuckoo/conf/vpn.conf{,.off}
+[ ! -e ~/src/cuckoo/conf/vpn.conf.on ] && \
+    cp ~/cuckoo-tools/files/vpn.conf.on ~/src/cuckoo/conf/vpn.conf.on
 mv ~/src/cuckoo/conf/vpn.conf{.on,}
+
+cd /etc/openvpn
+sudo openvpn --config ovpn.conf 
 
