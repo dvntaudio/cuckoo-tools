@@ -2,7 +2,7 @@
 
 set -e
 
-sudo apt-get update && sudo apt-get dist-upgrade
+sudo apt-get update && sudo apt-get -y dist-upgrade
 
 # General tools
 sudo apt-get -y -qq install vim git ctags vim-doc vim-scripts
