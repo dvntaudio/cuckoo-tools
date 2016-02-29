@@ -77,3 +77,20 @@ sudo usermod -a -G libvirt cuckoo
 # Let the cuckoo user access tcpdump
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 
+# Configure Cuckoo
+ROOTDIR=~/src/cuckoo/conf
+HOSTIP=$(/bin/hostname -I)
+
+cp ~/cuckoo-tools/files/*.conf $ROOTDIR
+sed -i -e "s/ip = 192.168.56.1/ip = $HOSTIP/" $ROOTDIR/cuckoo.conf
+
+sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata
+
+echo -n "Fix mitmproxy. "
+mitmproxy >> ~/src/cuckoo/log/mitmproxy 2>&1 &
+MITM_PID=$!
+sleep 10
+kill -9 $MITM_PID > /dev/null 2>&1 | true
+cp ~/.mitmproxy/mitmproxy-ca-cert.p12 ~/src/cuckoo/analyzer/windows/bin/cert.p12
+echo "Done."
+
