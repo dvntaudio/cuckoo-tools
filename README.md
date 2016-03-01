@@ -27,17 +27,12 @@ This is also a good time to shutdown the image and take a snapshot if anything b
     cd cuckoo-tools
     ./bin/setup.sh      # go get a cup of coffe...
 
+You now have a default configuration for a Win 7 x86-64 vm in KVM. 
+
 Optional steps to use my _.bashrc_ and _.vimrc_.
 
     make
     . ~/.bashrc
-
-Configure Cuckoo
-================
-
-Run the command below to install a default configuration for a Win 7 x86-64 machine.
-
-    ./bin/config.sh
 
 Now is a good time to reboot to make sure VMware hgfs works.
 
@@ -92,12 +87,19 @@ Note the ip address and enter it in cuckoo/conf/kvm.conf.
 
 Start _agent.pyw_ and take a snapshot of the running instance of Windows. Call the snapshot _snapshot1_.
 
+Enable OVPN
+===========
+
+I use [OVPN](https://www.ovpn.se/) as my VPN provider and you can enable support for it this way if you have an account.
+
+First create a file with your OVPN login information. I'll call the file ovpn-account.txt. Type your username on the first line and your password on the second line. Then run 
+
+    ./bin/configure-ovpn.sh ~/shared/ovpn-account.txt
+
 Using Cuckoo
 ============
 
-First update rules for Suricata:
-
-    ./bin/update-rules.sh
+The included start script for Cuckoo will install and update Snort rules for Suricata in Cuckoo. New rules are downloaded it the curren ones are older then 24 hours. The script will also update cuckoo.conf with the curren IP address of eth0.
 
 Start Cuckoo:
 
