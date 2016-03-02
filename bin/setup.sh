@@ -5,7 +5,7 @@ set -e
 sudo apt-get update && sudo apt-get -y dist-upgrade
 
 # General tools
-sudo apt-get -y -qq install vim git ctags vim-doc vim-scripts
+sudo apt-get -y -qq ctags curl git install vim vim-doc vim-scripts 
 
 # Tools for Vmware
 sudo apt-get -y -qq install open-vm-tools-desktop fuse
