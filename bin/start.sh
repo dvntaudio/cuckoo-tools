@@ -39,7 +39,7 @@ fi
 
 LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -ctime 1)
 
-[ ! -z $LAST_UPDATE_RULES ] && update_rules
+[ -z $LAST_UPDATE_RULES ] && update_rules
 
 echo -n "Starting Suricata. "
 sudo suricata --unix-socket -D > /dev/null 2>&1
