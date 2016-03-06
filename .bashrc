@@ -94,9 +94,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-PATH=$PATH:Documents/kali-tools/bin
-export PATH
-
 function shared(){
     MOUNTP=$(vmware-hgfsclient)
 
