@@ -3,12 +3,14 @@
 MOUNTP=$(vmware-hgfsclient)
 
 function update_rules(){
+    echo -n "Updating rules. "
     RULESDIR=$(mktemp -d)
     cd $RULESDIR
-    wget http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz
-    tar xvfz emerging.rules.tar.gz
+    wget -q http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz
+    tar xfz emerging.rules.tar.gz
     sudo mv rules/* /etc/suricata/rules/
     rm -rf $RULESDIR
+    echo "Done."
 }
 
 if [ !  -z "$MOUNTP" ]; then
@@ -37,7 +39,7 @@ if [ ! -e /etc/suricata/rules/tor.rules ]; then
     update_rules
 fi
 
-LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -ctime 1)
+LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 
 [ ! -z $LAST_UPDATE_RULES ] && update_rules
 
@@ -54,13 +56,13 @@ echo "Done."
 
 sudo chown cuckoo:cuckoo /var/run/suricata/suricata-command.socket
 
-if grep "enabled = yes" ~/src/cuckoo/conf/vpn.conf > /dev/null; then
-    echo -n "Staring rooter script as root. "
-    sudo ~/src/cuckoo/utils/rooter.py -v -g cuckoo > \
-        ~/src/cuckoo/log/rooter.log 2>&1 &
-    sleep 3
-    echo "Done."
-fi    
+#if grep "enabled = yes" ~/src/cuckoo/conf/vpn.conf > /dev/null; then
+#    echo -n "Staring rooter script as root. "
+#    sudo ~/src/cuckoo/utils/rooter.py -v -g cuckoo > \
+#        ~/src/cuckoo/log/rooter.log 2>&1 &
+#    sleep 3
+#    echo "Done."
+#fi
 
 cd ~/src/cuckoo
 echo -n "Starting Cuckoo server."
