@@ -90,11 +90,11 @@ Start _agent.pyw_ and take a snapshot of the running instance of Windows. Call t
 Enable OVPN
 ===========
 
-I use [OVPN](https://www.ovpn.se/) as my VPN provider and you can enable support for it this way if you have an account.
+I use [OVPN](https://www.ovpn.se/) as my VPN provider and you can enable support for it this way if you have an account. I tried to use it with the built in support i Cuckoo 2.0-dev but didn't get it to work correctly so now the script enables VPN globaly for Debian.
 
 First create a file with your OVPN login information. I'll call the file ovpn-account.txt. Type your username on the first line and your password on the second line. Then run 
 
-    ./bin/configure-ovpn.sh ~/shared/ovpn-account.txt
+    ./bin/enable-global-ovpn.sh ~/shared/ovpn-account.txt
 
 Using Cuckoo
 ============
@@ -112,11 +112,4 @@ TODO
 
 * Setup https://downloads.cuckoosandbox.org/docs/usage/utilities.html#smtp-sinkhole
 * More tests...
-
-Fixes
-=====
-
-If there is any problems with pip run the following command:
-
-    sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
