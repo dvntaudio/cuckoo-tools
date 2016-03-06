@@ -28,7 +28,6 @@ ROOTCMD=$(mktemp)
 echo "sed -i $'s/dev tun/auth-retry nointeract\\\ndev tun9\\\ndev-type tun/' /etc/openvpn/ovpn.conf" > $ROOTCMD
 echo "sed -i 's!auth-user-pass!auth-user-pass /etc/openvpn/ovpn.se.cred!' /etc/openvpn/ovpn.conf" >> $ROOTCMD
 echo "echo '' >> /etc/openvpn/ovpn.conf" >> $ROOTCMD
-echo "echo route-nopull >> /etc/openvpn/ovpn.conf" >> $ROOTCMD
 echo "echo 999  tun9 >> /etc/iproute2/rt_tables" >> $ROOTCMD
 sudo bash $ROOTCMD
 rm -f $ROOTCMD
