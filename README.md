@@ -13,15 +13,15 @@ The script is only tested on Debian 8.3. I installed Debian from the [mini.iso](
 
 When you're done with the steps below you should have a working copy of Cuckoo 2.0-dev (at the time I write this).
 
-First thing to do is install sudo and git.
+First thing to do is install **sudo** and **git**.
 
     su -
     apt-get install -y sudo git
     usermod -a -G sudo cuckoo
 
-You have to logout for the changes of group membership to take effect.
+You have to logout for the group membership changes to take effect.
 
-This is also a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/). Don't forget to change screen settings and enable folder sharing before taking the snapshot.
+This is a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/). Don't forget to change screen settings and enable folder sharing before taking the snapshot.
 
     git clone https://github.com/reuteras/cuckoo-tools.git
     cd cuckoo-tools
@@ -111,5 +111,6 @@ TODO
 ====
 
 * Setup https://downloads.cuckoosandbox.org/docs/usage/utilities.html#smtp-sinkhole
+* Look at http://blog.scottlowe.org/2013/05/29/a-quick-introduction-to-linux-policy-routing/ for VPN config example.
 * More tests...
 
