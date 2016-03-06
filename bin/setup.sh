@@ -15,7 +15,7 @@ sudo apt-get -y -qq install open-vm-tools-desktop fuse
 sudo apt-get -y -qq install python python-pip python-dev libffi-dev libssl-dev \
     mongodb qemu-kvm libvirt-bin bridge-utils yara python-yara libyara3 \
     libyara-dev python-libvirt tcpdump libcap2-bin virt-manager swig \
-    suricata tesseract-ocr libjpeg-dev linux-headers-$(uname -r)
+    suricata tesseract-ocr libjpeg-dev linux-headers-$(uname -r) ssdeep
 
 # Configure suricata
 if [ ! -e /etc/suricata/suricata.yaml ]; then
@@ -27,20 +27,6 @@ fi
 if [ ! -d ~/src ]; then
     mkdir ~/src
 fi    
-
-# Install ssdeep for pydeep
-if [ ! -d ~/src/ssdeep-2.13 ]; then
-    cd ~/src
-    wget http://sourceforge.net/projects/ssdeep/files/ssdeep-2.13/ssdeep-2.13.tar.gz/download -O ssdeep-2.13.tar.gz
-    tar xvfz ssdeep-2.13.tar.gz
-    cd ssdeep-2.13/
-    ./configure
-    make
-    sudo make install
-    cd ..
-    rm -rf ssdeep-2.13 ssdeep-2.13.tar.gz
-    cd
-fi
 
 # Install volatility
 if [ ! -d ~/src/volatility ]; then
