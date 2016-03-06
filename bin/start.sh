@@ -56,13 +56,11 @@ echo "Done."
 
 sudo chown cuckoo:cuckoo /var/run/suricata/suricata-command.socket
 
-#if grep "enabled = yes" ~/src/cuckoo/conf/vpn.conf > /dev/null; then
-#    echo -n "Staring rooter script as root. "
-#    sudo ~/src/cuckoo/utils/rooter.py -v -g cuckoo > \
-#        ~/src/cuckoo/log/rooter.log 2>&1 &
-#    sleep 3
-#    echo "Done."
-#fi
+echo -n "Staring rooter script as root. "
+sudo ~/src/cuckoo/utils/rooter.py -v -g cuckoo > \
+    ~/src/cuckoo/log/rooter.log 2>&1 &
+sleep 3
+echo "Done."
 
 cd ~/src/cuckoo
 echo -n "Starting Cuckoo server."
