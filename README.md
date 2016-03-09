@@ -81,6 +81,10 @@ Remember to
 * Change background.
 * Add some files and bookmarks.
 
+Other things to consider includes
+
+* Disable [Teredo](https://technet.microsoft.com/en-us/library/ee126159%28v=ws.10%29.aspx?f=255&MSPPError=-2147217396). Run * *netsh interface teredo* and *set state disabled*.
+
 Note the ip address and enter it in cuckoo/conf/kvm.conf.
 
     vim cuckoo/conf/kvm.conf
