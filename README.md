@@ -111,6 +111,18 @@ Start Cuckoo:
 
 To test your installation you can download malware from http://www.tekdefense.com/downloads/malware-samples/. I recommend [340s.exe.zip](http://www.tekdefense.com/downloads/malware-samples/340s.exe.zip) which should trigger some Suricata rules. The files are password protected with the password "infected".
 
+Running under libvirt
+=====================
+
+If you use libvirt and kvm to run the Cuckoo server you have to enable support for kvm in kvm. From [this](http://kashyapc.com/2012/01/14/nested-virtualization-with-kvm-intel/) page I found the instruction to add the following to _/etc/modprobe.d/local.conf_:
+
+    options kvm-intel nested=y
+
+You can verify that this is enabled and working:
+
+    cat /sys/module/kvm_intel/parameters/nested
+    Y
+
 TODO
 ====
 
