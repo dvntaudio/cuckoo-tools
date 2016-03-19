@@ -44,7 +44,7 @@ LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 [ ! -z $LAST_UPDATE_RULES ] && update_rules
 
 echo -n "Starting Suricata. "
-sudo suricata --unix-socket -D > /dev/null 2>&1
+sudo suricata --unix-socket -D > ~/src/cuckoo/log/suricata.log 2>&1
 echo "Done."
 
 echo -n "Waiting for Suricata socket. "
