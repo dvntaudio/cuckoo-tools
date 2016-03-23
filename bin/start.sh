@@ -2,13 +2,14 @@
 
 MOUNTP=$(vmware-hgfsclient)
 
+# shellcheck source=/dev/null
 . ~/cuckoo-tools/bin/common.sh
 
 if [ !  -z "$MOUNTP" ]; then
     if [ ! -d ~/shared ]; then
         mkdir ~/shared
     fi
-    sudo mount -t vmhgfs .host:/$MOUNTP $HOME/shared
+    sudo mount -t vmhgfs ".host:/$MOUNTP $HOME/shared"
 fi 
 
 STATE=$(sudo virsh net-list | grep default | awk '{print $2}')
@@ -32,9 +33,10 @@ fi
 
 LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 
-[ ! -z $LAST_UPDATE_RULES ] && update_rules
+[ ! -z "$LAST_UPDATE_RULES" ] && update_rules
 
 echo -n "Starting Suricata. "
+# shellcheck disable=SC2024
 sudo suricata --unix-socket -D > ~/src/cuckoo/log/suricata.log 2>&1
 echo "Done."
 
@@ -48,18 +50,19 @@ echo "Done."
 sudo chown cuckoo:cuckoo /var/run/suricata/suricata-command.socket
 
 echo -n "Staring rooter script as root. "
+# shellcheck disable=SC2024
 sudo ~/src/cuckoo/utils/rooter.py -v -g cuckoo > \
     ~/src/cuckoo/log/rooter.log 2>&1 &
 sleep 3
 echo "Done."
 
-cd ~/src/cuckoo
+cd ~/src/cuckoo || exit 1
 echo -n "Starting Cuckoo server."
 HOSTIP=$(ip a s dev eth0 | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 sed -i -e "s/ip = .*/ip = $HOSTIP/" ~/src/cuckoo/conf/cuckoo.conf
 ./cuckoo.py -d >> log/cuckoo-cmd.log 2>&1 &
 echo "Done."
-cd web
+cd web || exit 1
 
 echo -n "Starting cuckoo web."
 python manage.py runserver >> ../log/web.log 2>&1 &

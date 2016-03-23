@@ -15,7 +15,7 @@ sudo apt-get -y -qq install open-vm-tools-desktop fuse
 sudo apt-get -y -qq install python python-pip python-dev libffi-dev libssl-dev \
     mongodb qemu-kvm libvirt-bin bridge-utils yara python-yara libyara3 \
     libyara-dev python-libvirt tcpdump libcap2-bin virt-manager swig \
-    suricata tesseract-ocr libjpeg-dev linux-headers-$(uname -r) ssdeep \
+    suricata tesseract-ocr libjpeg-dev linux-headers-"$(uname -r)" ssdeep \
     libfuzzy-dev
 
 # Configure suricata
