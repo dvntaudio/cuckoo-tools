@@ -11,9 +11,9 @@ Setup Cuckoo
 
 The script is only tested on Debian 8.3. I installed Debian from the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso). Basic setup with LVM and no print server. The installation instructions below assumes that the username is _cuckoo_.
 
-When you're done with the steps below you should have a working copy of Cuckoo 2.0-dev (at the time I write this).
+When you're done with the steps below you should have a working copy of Cuckoo 2.0-dev (at the time I write this). Cuckoo and Volatility is installed under _~/src_. If you would like to change anything in the Cuckoo conf the files are located under _~src/cuckoo/conf/_.
 
-First thing to do is install **sudo** and **git**.
+First thing to do is install **sudo** and **git**. For this you have to *su -* to *root*. This is the only thing you should run in a root shell. Everything else should be executed as the _cuckoo_ user.
 
     su -
     apt-get install -y sudo git
@@ -48,7 +48,7 @@ Otherwise you can use:
     mkdir $HOME/shared
     sudo mount -t vmhgfs .host:/cuckoo $HOME/shared
 
-Before you begin the installation remember that you have to enable virtualiztion in the vm. In VMware Fusion this is done under advanced settings for processors & memory.
+Before you begin the installation remember that you *have* to enable virtualiztion in the vm. In VMware Fusion this is done under advanced settings for processors & memory. If you don't do this change you can't install Windows in the client.
 
 To begin the installation of the Windows machine.
 
