@@ -2,7 +2,7 @@
 
 MOUNTP=$(vmware-hgfsclient)
 
-# shellcheck source=/dev/null
+# shellcheck disable=SC1090
 . ~/cuckoo-tools/bin/common.sh
 
 if [ !  -z "$MOUNTP" ]; then

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shellcheck source=/dev/null
+# shellcheck disable=SC1090
 . ~/cuckoo-tools/bin/common.sh
 
 # Update Debian
