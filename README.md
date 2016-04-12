@@ -17,9 +17,10 @@ First thing to do is install **sudo** and **git**. For this you have to *su -* t
 
     su -
     apt-get install -y sudo git
-    usermod -a -G sudo cuckoo
+    usermod -a -G sudo cuckooi
+    exit
 
-You have to logout for the group membership changes to take effect.
+You have to logout for the group membership changes to take effect. Login in again as the _cuckoo_ user.
 
 This is a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/). Don't forget to change screen settings and enable folder sharing before taking the snapshot.
 
