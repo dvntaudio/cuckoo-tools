@@ -20,7 +20,7 @@ sudo apt-get -y -qq install python python-pip python-dev libffi-dev libssl-dev \
 
 # Configure suricata
 if [ ! -e /etc/suricata/suricata.yaml ]; then
-    sudo cp files/suricata.yaml /etc/suricata/suricata.yaml
+    sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata/suricata.yaml
     sudo chown root:root /etc/suricata/suricata.yaml
     sudo chmod 644 /etc/suricata/suricata.yaml
 fi
