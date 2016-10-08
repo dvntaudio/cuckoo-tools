@@ -27,7 +27,7 @@ sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     sudo ln -s /usr/local/bin/pip /usr/bin/pip && \
     sudo rm /tmp/get-pip.py && \
     sudo -H pip install pyopenssl ndg-httpsclient pyasn1 && \
-    info-message "Install pip from pypa.io."
+    echo "Install pip from pypa.io."
 
 # Configure suricata
 if [ ! -e /etc/suricata/suricata.yaml ]; then
