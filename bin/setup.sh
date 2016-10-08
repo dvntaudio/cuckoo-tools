@@ -18,8 +18,16 @@ sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     suricata tesseract-ocr libjpeg-dev linux-headers-"$(uname -r)" ssdeep \
     libfuzzy-dev libxml2-dev libxslt-dev libyaml-dev
 
-# Install new pip
-sudo easy_install pip
+
+# Fix problem with pip - https://github.com/pypa/pip/issues/1093
+[ ! -e /usr/local/bin/pip ] && \
+    sudo apt-get remove -yqq --auto-remove python-pip && \
+    wget --quiet -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
+    sudo -H python /tmp/get-pip.py && \
+    sudo ln -s /usr/local/bin/pip /usr/bin/pip && \
+    sudo rm /tmp/get-pip.py && \
+    sudo -H pip install pyopenssl ndg-httpsclient pyasn1 && \
+    info-message "Install pip from pypa.io."
 
 # Configure suricata
 if [ ! -e /etc/suricata/suricata.yaml ]; then
