@@ -11,19 +11,19 @@ sudo apt-get -y -qq install ctags curl git vim vim-doc vim-scripts \
 # Tools for Vmware
 sudo apt-get -y -qq install open-vm-tools-desktop fuse
 
-# Tools for Cuckoo
+# Tools for Cuckoo and others
 sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     mongodb qemu-kvm libvirt-bin bridge-utils yara python-yara libyara3 \
     libyara-dev python-libvirt tcpdump libcap2-bin virt-manager swig \
     suricata tesseract-ocr libjpeg-dev linux-headers-"$(uname -r)" ssdeep \
-    libfuzzy-dev
+    libfuzzy-dev libxml2-dev libxslt-dev libyaml-dev
 
 # Install new pip
 sudo easy_install pip
 
 # Configure suricata
 if [ ! -e /etc/suricata/suricata.yaml ]; then
-    sudo cp files/suricata.yaml /etc/suricata/suricata.yaml
+    sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata/suricata.yaml
     sudo chown root:root /etc/suricata/suricata.yaml
     sudo chmod 644 /etc/suricata/suricata.yaml
 fi
