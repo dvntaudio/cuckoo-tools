@@ -9,7 +9,7 @@ if [ !  -z "$MOUNTP" ]; then
     if [ ! -d ~/shared ]; then
         mkdir ~/shared
     fi
-    sudo mount -t vmhgfs ".host:/$MOUNTP $HOME/shared"
+    sudo mount -t vmhgfs ".host:/$MOUNTP $HOME/shared" > /dev/null 2>&1
 fi 
 
 STATE=$(sudo virsh net-list | grep default | awk '{print $2}')
