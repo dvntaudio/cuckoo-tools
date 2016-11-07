@@ -67,7 +67,7 @@ if [ ! -d ~/src/cuckoo ]; then
     sudo setfacl -d -R -m user:cuckoo:7 storage
     mkdir log
     sudo pip install -r requirements.txt
-    ./utils/community.py -wafb 2.0
+    ./utils/community.py -wafb master
     cd
 fi
 
