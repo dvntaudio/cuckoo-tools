@@ -1,17 +1,16 @@
 cuckoo-tools
 ============
 
-This a collection of scripts that installs Cuckoo 2.0-dev and required tools such as:
-
-* Volatility
-* Suricata
+This a collection of scripts that installs Cuckoo 2.0-dev and required tools to easy the setup of a new environment.
 
 Setup Cuckoo
 ============
 
-The script is only tested on Debian 8.3. I installed Debian from the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso). Basic setup with LVM and no print server. The installation instructions below assumes that the username is _cuckoo_.
+The script is last tested with Debian 8.6. I installed Debian from the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso). Basic setup with LVM and no print server. The installation instructions below assumes that the username is _cuckoo_. 
 
-When you're done with the steps below you should have a working copy of Cuckoo 2.0-dev (at the time I write this). Cuckoo and Volatility is installed under _~/src_. If you would like to change anything in the Cuckoo conf the files are located under _~src/cuckoo/conf/_.
+To run Cuckoo inside VMware Fusion or other similar tool you first have to enable the possibility to run a hypervisor in the virtual machine. 
+
+When you're done with the steps below you should have a working copy of Cuckoo 2.0-dev. This script checks out Cuckoo master branch from git. Cuckoo and Volatility is installed under _~/src_. If you would like to change anything in the Cuckoo conf the files are located under _~src/cuckoo/conf/_. The setup scripts edits some of the configuration files.
 
 First thing to do is install **sudo** and **git**. For this you have to *su -* to *root*. This is the only thing you should run in a root shell. Everything else should be executed as the _cuckoo_ user.
 
@@ -22,25 +21,27 @@ First thing to do is install **sudo** and **git**. For this you have to *su -* t
 
 You have to logout for the group membership changes to take effect. Login in again as the _cuckoo_ user.
 
-This is a good time to shutdown the image and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/). Don't forget to change screen settings and enable folder sharing before taking the snapshot.
-
     git clone https://github.com/reuteras/cuckoo-tools.git
+    # This is a good time to change screen settings and other preferences.
+    # Enable folder sharing to make it easier to share malware
+
+This is a good time to shutdown the virtual machine and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/).
+    
     cd cuckoo-tools
     ./bin/setup.sh      # go get a cup of coffe...
 
-You now have a default configuration for a Win 7 x86-64 vm in KVM. 
+You now have a default configuration for a Win 7 x86-64 virtual machine in KVM.
 
 Optional steps to use my _.bashrc_ and _.vimrc_.
 
     make
     . ~/.bashrc
-
-Now is a good time to reboot to make sure VMware hgfs works.
+    sudo reboot     # make sure VMware hgfs works.
 
 Install a Windows machine
 =========================
 
-Share a folder with your vm and mount it. If you have installed my .bashrc you can just run
+Share a folder with your virtual machine and mount it. If you have installed my .bashrc you can just run
 
     shared
 
@@ -49,11 +50,11 @@ Otherwise you can use:
     mkdir $HOME/shared
     sudo mount -t vmhgfs .host:/cuckoo $HOME/shared
 
-Before you begin the installation remember that you *have* to enable virtualiztion in the vm. In VMware Fusion this is done under advanced settings for processors & memory. If you don't do this change you can't install Windows in the client.
+Before you begin the installation remember that you *have* to enable virtualiztion in the virtual machine. In VMware Fusion this is done under advanced settings for processors & memory. If you don't do this change you can't install Windows in the client.
 
 To begin the installation of the Windows machine.
 
-    virt-manager 
+    virt-manager
 
 Name the machine win7_x64 for the defaults in this repository to work. I will not explain the steps needed here.
 
@@ -95,9 +96,9 @@ Start _agent.pyw_ and take a snapshot of the running instance of Windows. Call t
 Enable OVPN
 ===========
 
-I use [OVPN](https://www.ovpn.se/) as my VPN provider and you can enable support for it this way if you have an account. I tried to use it with the built in support i Cuckoo 2.0-dev but didn't get it to work correctly so now the script enables VPN globaly for Debian.
+I use [OVPN](https://www.ovpn.se/) as my VPN provider and you can enable support for it this way if you have an account. I tried to use it with the built in support i Cuckoo 2.0-dev but didn't get it to work correctly so now the script enables VPN globally for Debian.
 
-First create a file with your OVPN login information. I'll call the file ovpn-account.txt. Type your username on the first line and your password on the second line. Then run 
+First create a file with your OVPN login information. I'll call the file ovpn-account.txt. Type your username on the first line and your password on the second line. Then run
 
     ./bin/enable-global-ovpn.sh ~/shared/ovpn-account.txt
 
@@ -123,11 +124,4 @@ You can verify that this is enabled and working:
 
     cat /sys/module/kvm_intel/parameters/nested
     Y
-
-TODO
-====
-
-* Setup https://downloads.cuckoosandbox.org/docs/usage/utilities.html#smtp-sinkhole
-* Look at http://blog.scottlowe.org/2013/05/29/a-quick-introduction-to-linux-policy-routing/ for VPN config example.
-* More tests...
 
