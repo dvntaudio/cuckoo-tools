@@ -5,8 +5,17 @@ set -e
 sudo apt-get update && sudo apt-get -y dist-upgrade
 
 # General tools
-sudo apt-get -y -qq install ctags curl git vim vim-doc vim-scripts \
-    exfat-fuse exfat-utils zip
+sudo apt-get -y -qq install \
+    crudini \
+    ctags \
+    curl \
+    exfat-fuse \
+    exfat-utils \
+    git \
+    vim \
+    vim-doc \
+    vim-scripts \
+    zip
 
 # Tools for Vmware
 sudo apt-get -y -qq install open-vm-tools-desktop fuse
@@ -17,7 +26,6 @@ sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     libyara-dev python-libvirt tcpdump libcap2-bin virt-manager swig \
     suricata tesseract-ocr libjpeg-dev linux-headers-"$(uname -r)" ssdeep \
     libfuzzy-dev libxml2-dev libxslt-dev libyaml-dev
-
 
 # Fix problem with pip - https://github.com/pypa/pip/issues/1093
 [ ! -e /usr/local/bin/pip ] && \
@@ -80,8 +88,25 @@ sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 ROOTDIR=~/src/cuckoo/conf
 HOSTIP=$(ip a s dev eth0 | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 
-cp ~/cuckoo-tools/files/*.conf $ROOTDIR
+crudini --set $ROOTDIR/auxiliary.conf mitm enabled yes
+sed -i -e "s/# bpf = /bpf = /" $ROOTDIR/auxiliary.conf
+
+crudini --set $ROOTDIR/cuckoo.conf cuckoo machinery kvm
 sed -i -e "s/ip = 192.168.56.1/ip = $HOSTIP/" $ROOTDIR/cuckoo.conf
+
+crudini --set  $ROOTDIR/kvm.conf kvm machines win7_x64
+sed -i -e "s/\[cuckoo1\]/\[win7_x64\]/" $ROOTDIR/kvm.conf
+crudini --set  $ROOTDIR/kvm.conf win7_x64 label win7_x64
+crudini --set  $ROOTDIR/kvm.conf win7_x64 snapshot snapshot1
+
+crudini --set  $ROOTDIR/memory.conf win7_x64 guest_profile Win7SP1x64
+
+crudini --set  $ROOTDIR/processing.conf screenshots enabled yes
+crudini --set  $ROOTDIR/processing.conf suricata enabled yes
+sed -i -e "s/# socket = /socket = /" $ROOTDIR/processing.conf
+
+crudini --set  $ROOTDIR/reporting.conf reporthtml enabled yes
+crudini --set  $ROOTDIR/reporting.conf mongodb enabled yes
 
 sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata
 
