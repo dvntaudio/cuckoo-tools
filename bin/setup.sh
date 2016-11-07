@@ -117,6 +117,7 @@ if [ ! -e ~/src/cuckoo/analyzer/windows/bin/cert.p12 ]; then
     sleep 10
     kill -9 $MITM_PID > /dev/null 2>&1 | true
     cp ~/.mitmproxy/mitmproxy-ca-cert.p12 ~/src/cuckoo/analyzer/windows/bin/cert.p12
+    sed -i -e 's/mitmdump, "-q",/mitmdump, "-q", "--no-http2",/' ~/src/cuckoo/modules/auxiliary/mitm.py
     echo "Done."
 fi
 
