@@ -103,7 +103,7 @@ crudini --set  $ROOTDIR/memory.conf win7_x64 guest_profile Win7SP1x64
 
 crudini --set  $ROOTDIR/processing.conf screenshots enabled yes
 crudini --set  $ROOTDIR/processing.conf suricata enabled yes
-sed -i -e "s/# socket = /socket = /" $ROOTDIR/processing.conf
+crudini --set  $ROOTDIR/processing.conf suricata socket /var/run/suricata/suricata-command.socket
 
 crudini --set  $ROOTDIR/reporting.conf reporthtml enabled yes
 crudini --set  $ROOTDIR/reporting.conf mongodb enabled yes
