@@ -7,6 +7,9 @@ install:
 	cp .bash_aliases ~/ && chmod 600 ~/.bash_aliases
 	cp .vimrc ~/ && chmod 600 ~/.vimrc
 
+clean:
+	./bin/clean.sh
+
 test:
 	shellcheck -f checkstyle bin/*.sh > checkstyle.out || true
 
