@@ -13,7 +13,7 @@ sudo touch "$LOG"
 
 info-message "Update Debian"
 # shellcheck disable=SC2024
-sudo apt-get update && sudo apt-get -y dist-upgrade >> $LOG 2>&1
+sudo apt-get update  >> $LOG 2>&1 && sudo apt-get -y dist-upgrade >> $LOG 2>&1
 
 info-message "Install general tools."
 # shellcheck disable=SC2024
