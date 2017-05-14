@@ -11,3 +11,10 @@ function update_rules(){
     echo "Done."
 }
 
+function info-message() {
+    echo "**** INFO: $*"
+}
+
+function error-message() {
+    (>&2 echo "**** ERROR: $*")
+}
