@@ -9,7 +9,7 @@ touch "$LOG"
 sudo touch "$LOG"
 
 # shellcheck source=/dev/null
-[[ -e ~/remnux-tools/bin/common.sh ]] && . ~/remnux-tools/bin/common.sh || exit "Cant find common.sh."
+[[ -e ~/cuckoo-tools/bin/common.sh ]] && . ~/cuckoo-tools/bin/common.sh || exit "Cant find common.sh."
 
 info-message "Update Debian"
 # shellcheck disable=SC2024
