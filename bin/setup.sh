@@ -67,12 +67,16 @@ if [ ! -d ~/src ]; then
     mkdir ~/src
 fi
 
+if [ ! -d ~/.virtualenv ]; then
+    mkdir ~/.virtualenv
+fi
+
 info-message "Setup virtualenvwrapper."                                                                                                                                                                                                                                                                                                                                     # Use virtualenvwrapper for python tools
 export PROJECT_HOME="$HOME"/.virtualenv
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
-if [ -d ~/.virtualenv/cuckoo ]; then
+if [ ! -d ~/.virtualenv/cuckoo ]; then
     info-message "Create virtualenv for Cuckoo."
     mkvirtualenv cuckoo >> "$LOG" 2>&1 || true
     {
