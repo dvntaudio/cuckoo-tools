@@ -43,19 +43,6 @@ sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     python-virtualenv python-setuptools postgresql libpq-dev \
     virtualenvwrapper >> $LOG 2>&1
 
-# Fix problem with pip - https://github.com/pypa/pip/issues/1093
-if [ ! -e /usr/local/bin/pip ]; then
-    info-message "Install pip from pypa.io"
-    {
-        sudo apt-get remove -yqq --auto-remove python-pip
-        wget --quiet -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
-        sudo -H python /tmp/get-pip.py
-        sudo ln -s /usr/local/bin/pip /usr/bin/pip
-        sudo rm /tmp/get-pip.py
-        sudo -H pip install pyopenssl ndg-httpsclient pyasn1 
-    } >> $LOG 2>&1
-fi
-
 if [ ! -e /etc/suricata/suricata.yaml ]; then
     info-message "Configure suricata"
     sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata/suricata.yaml
