@@ -23,8 +23,8 @@ if [ "$AUTO" == "no" ]; then
     sudo virsh net-autostart default
 fi
 
-if [ -e /var/run/suricata/suricata-command.socket ]; then
-    sudo rm -f /var/run/suricata/suricata-command.socket
+if [ -e /var/run/suricata-command.socket ]; then
+    sudo rm -f /var/run/suricata-command.socket
 fi
 
 if [ ! -e /etc/suricata/rules/tor.rules ]; then
@@ -47,7 +47,7 @@ while [ ! -e /var/run/suricata/suricata-command.socket ]; do
 done
 echo "Done."
 
-sudo chown cuckoo:cuckoo /var/run/suricata/suricata-command.socket
+sudo chown cuckoo:cuckoo /var/run/suricata-command.socket
 
 echo -n "Staring rooter script as root. "
 # shellcheck disable=SC2024
