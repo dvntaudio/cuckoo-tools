@@ -56,8 +56,6 @@ if [ ! -d ~/src ]; then
 fi
 
 info-message "Setup virtualenvwrapper."
-# Use virtualenvwrapper for python tools
-export PROJECT_HOME="$HOME"/.virtualenv
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
