@@ -88,9 +88,10 @@ fi
 
 # Install Cuckoo
 if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
-    workon cuckoo
+    workon cuckoo || true
     pip install -U cuckoo >> "$LOG" 2>&1
     cuckoo --cwd ~/src/cuckoo >> "$LOG" 2>&1
+    deactivate
     #mkdir storage
     #sudo setfacl -R -m user:cuckoo:7 storage
     #sudo setfacl -d -R -m user:cuckoo:7 storage
