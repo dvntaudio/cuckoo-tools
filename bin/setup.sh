@@ -58,7 +58,8 @@ if [ ! -d ~/.virtualenv ]; then
     mkdir ~/.virtualenv
 fi
 
-info-message "Setup virtualenvwrapper."                                                                                                                                                                                                                                                                                                                                     # Use virtualenvwrapper for python tools
+info-message "Setup virtualenvwrapper."
+# Use virtualenvwrapper for python tools
 export PROJECT_HOME="$HOME"/.virtualenv
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
@@ -67,10 +68,9 @@ if [ ! -d ~/.virtualenv/cuckoo ]; then
     info-message "Create virtualenv for Cuckoo."
     mkvirtualenv cuckoo >> "$LOG" 2>&1 || true
     {
+        mkdir ~/src/cuckoo
         setvirtualenvproject
-        pip install --upgrade pip setuptools
-        # shellcheck disable=SC2102
-        pip install --upgrade urllib3[secure]
+        pip install -U pip setuptools
     } >> "$LOG" 2>&1
     deactivate
 fi
@@ -102,9 +102,6 @@ if [ ! -f ~/src/cuckoo ]; then
     #./utils/community.py -wafb master
     #cd
 fi
-
-# Clean up
-sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
 # Install python packages globaly
 #sudo pip install maec pycrypto ujson mitmproxy distorm3 pytz \
