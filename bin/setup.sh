@@ -36,12 +36,13 @@ sudo apt-get -y -qq install open-vm-tools-desktop fuse >> $LOG 2>&1
 info-message "Install packages for Cuckoo and other."
 # shellcheck disable=SC2024
 sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
-    mongodb qemu-kvm libvirt-bin bridge-utils yara python-yara libyara3 \
+    mongodb qemu-kvm bridge-utils yara python-yara libyara3 \
     libyara-dev python-libvirt tcpdump libcap2-bin virt-manager swig \
     suricata tesseract-ocr libjpeg-dev linux-headers-"$(uname -r)" ssdeep \
     libfuzzy-dev libxml2-dev libxslt-dev libyaml-dev zlib1g-dev \
     python-virtualenv python-setuptools postgresql libpq-dev \
-    virtualenvwrapper >> $LOG 2>&1
+    virtualenvwrapper libvirt-daemon-system libvirt-dev \
+    libvirt-clients >> $LOG 2>&1
 
 if [ ! -e /etc/suricata/suricata.yaml ]; then
     info-message "Configure suricata"
