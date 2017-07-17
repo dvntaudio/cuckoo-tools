@@ -42,7 +42,7 @@ sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     libfuzzy-dev libxml2-dev libxslt-dev libyaml-dev zlib1g-dev \
     python-virtualenv python-setuptools postgresql libpq-dev \
     virtualenvwrapper libvirt-daemon-system libvirt-dev \
-    libvirt-clients >> $LOG 2>&1
+    libvirt-clients build-essential >> $LOG 2>&1
 
 if [ ! -e /etc/suricata/suricata.yaml ]; then
     info-message "Configure suricata"
@@ -55,17 +55,13 @@ if [ ! -d ~/src ]; then
     mkdir ~/src
 fi
 
-if [ ! -d ~/.virtualenv ]; then
-    mkdir ~/.virtualenv
-fi
-
 info-message "Setup virtualenvwrapper."
 # Use virtualenvwrapper for python tools
 export PROJECT_HOME="$HOME"/.virtualenv
 # shellcheck source=/dev/null
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
-if [ ! -d ~/.virtualenv/cuckoo ]; then
+if [ ! -d ~/.virtualenvs/cuckoo ]; then
     info-message "Create virtualenv for Cuckoo."
     mkvirtualenv cuckoo >> "$LOG" 2>&1 || true
     {
@@ -91,10 +87,10 @@ if [ ! -d ~/src/volatility ]; then
 fi
 
 # Install Cuckoo
-if [ ! -f ~/src/cuckoo ]; then
+if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
     workon cuckoo
     pip install -U cuckoo >> "$LOG" 2>&1
-    cuckoo --cwd ~/src/cuckoo
+    cuckoo --cwd ~/src/cuckoo >> "$LOG" 2>&1
     #mkdir storage
     #sudo setfacl -R -m user:cuckoo:7 storage
     #sudo setfacl -d -R -m user:cuckoo:7 storage

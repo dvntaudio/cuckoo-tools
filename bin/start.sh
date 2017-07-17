@@ -58,7 +58,8 @@ echo "Done."
 
 cd ~/src/cuckoo || exit 1
 echo -n "Starting Cuckoo server."
-HOSTIP=$(ip a s dev eth0 | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
+INTERFACE=$(ip addr s | grep UP | grep -v lo: | grep -v virbr | cut -d: -f2 | sed -e "s/ //g")
+HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 sed -i -e "s/ip = .*/ip = $HOSTIP/" ~/src/cuckoo/conf/cuckoo.conf
 ./cuckoo.py -d >> log/cuckoo-cmd.log 2>&1 &
 echo "Done."
