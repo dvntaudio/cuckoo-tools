@@ -69,7 +69,7 @@ if [ ! -d ~/.virtualenv/cuckoo ]; then
     info-message "Create virtualenv for Cuckoo."
     mkvirtualenv cuckoo >> "$LOG" 2>&1 || true
     {
-        mkdir ~/src/cuckoo
+        mkdir -p ~/src/cuckoo/log
         setvirtualenvproject
         pip install -U pip setuptools
     } >> "$LOG" 2>&1
