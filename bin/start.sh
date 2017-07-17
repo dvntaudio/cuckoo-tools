@@ -41,9 +41,9 @@ sudo suricata --unix-socket -D > ~/src/cuckoo/log/suricata.log 2>&1
 echo "Done."
 
 echo -n "Waiting for Suricata socket. "
-while [ ! -e /var/run/suricata/suricata-command.socket ]; do
+while [ ! -e /var/run/suricata-command.socket ]; do
     sleep 1
-    sudo chown cuckoo:cuckoo /var/run/suricata/ > /dev/null 2>&1
+    sudo chown cuckoo:cuckoo /var/run/suricata* > /dev/null 2>&1
 done
 echo "Done."
 
