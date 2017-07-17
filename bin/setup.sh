@@ -63,7 +63,8 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 if [ ! -d ~/.virtualenvs/cuckoo ]; then
     info-message "Create virtualenv for Cuckoo."
-    mkvirtualenv cuckoo >> "$LOG" 2>&1 || true
+    # Use python-m2crypto from Debian. Doesn't compile from pip
+    mkvirtualenv --system-site-packages cuckoo >> "$LOG" 2>&1 || true
     {
         mkdir -p ~/src/cuckoo/log
         setvirtualenvproject
