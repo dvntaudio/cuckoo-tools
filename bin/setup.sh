@@ -42,7 +42,7 @@ sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     libfuzzy-dev libxml2-dev libxslt-dev libyaml-dev zlib1g-dev \
     python-virtualenv python-setuptools postgresql libpq-dev \
     virtualenvwrapper libvirt-daemon-system libvirt-dev \
-    libvirt-clients build-essential python-m2crypto >> $LOG 2>&1
+    libvirt-clients build-essential python-m2crypto mitmproxy >> $LOG 2>&1
 
 if [ ! -e /etc/suricata/suricata.yaml ]; then
     info-message "Configure suricata"
@@ -109,6 +109,18 @@ sudo usermod -a -G libvirt "$USER"
 # Let regular users access tcpdump
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 
+if [ ! -e ~/src/cuckoo/.conf/analyzer/windows/bin/cert.p12 ]; then
+    info-message "Fix certificate for mitmproxy."
+    mitmproxy >> ~/src/cuckoo/log/mitmproxy 2>&1 &
+    MITM_PID=$!
+    sleep 10
+    kill -9 $MITM_PID > /dev/null 2>&1 | true
+    cp ~/.mitmproxy/mitmproxy-ca-cert.p12 ~/src/cuckoo/.conf/analyzer/windows/bin/cert.p12
+    sed -i -e 's/mitmdump, "-q",/mitmdump, "-q", "--no-http2",/' ~/.virtualenvs/cuckoo/lib/python2.7/site-packages/cuckoo/auxiliary/mitm.py
+    sed -i -e 's#/usr/local/bin/mitmdump#/usr/bin/mitmdump#' ~/.virtualenvs/cuckoo/lib/python2.7/site-packages/cuckoo/auxiliary/mitm.py
+    info-message "Fixed mitmproxy."
+fi
+
 exit
 
 # Configure Cuckoo
@@ -136,15 +148,4 @@ crudini --set  $ROOTDIR/reporting.conf reporthtml enabled yes
 crudini --set  $ROOTDIR/reporting.conf mongodb enabled yes
 
 sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata
-
-if [ ! -e ~/src/cuckoo/analyzer/windows/bin/cert.p12 ]; then
-    echo -n "Fix mitmproxy. "
-    mitmproxy >> ~/src/cuckoo/log/mitmproxy 2>&1 &
-    MITM_PID=$!
-    sleep 10
-    kill -9 $MITM_PID > /dev/null 2>&1 | true
-    cp ~/.mitmproxy/mitmproxy-ca-cert.p12 ~/src/cuckoo/analyzer/windows/bin/cert.p12
-    sed -i -e 's/mitmdump, "-q",/mitmdump, "-q", "--no-http2",/' ~/src/cuckoo/modules/auxiliary/mitm.py
-    echo "Done."
-fi
 
