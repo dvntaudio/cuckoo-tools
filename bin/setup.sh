@@ -42,7 +42,7 @@ sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     libfuzzy-dev libxml2-dev libxslt-dev libyaml-dev zlib1g-dev \
     python-virtualenv python-setuptools postgresql libpq-dev \
     virtualenvwrapper libvirt-daemon-system libvirt-dev \
-    libvirt-clients build-essential >> $LOG 2>&1
+    libvirt-clients build-essential python-m2crypto >> $LOG 2>&1
 
 if [ ! -e /etc/suricata/suricata.yaml ]; then
     info-message "Configure suricata"
