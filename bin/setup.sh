@@ -11,11 +11,11 @@ sudo touch "$LOG"
 # shellcheck source=/dev/null
 [[ -e ~/cuckoo-tools/bin/common.sh ]] && . ~/cuckoo-tools/bin/common.sh || exit "Cant find common.sh."
 
-info-message "Update Debian"
+info-message "Update apt packages for Debian"
 # shellcheck disable=SC2024
 sudo apt-get update  >> $LOG 2>&1 && sudo apt-get -y dist-upgrade >> $LOG 2>&1
 
-info-message "Install general tools."
+info-message "Install general tools from apt."
 # shellcheck disable=SC2024
 sudo apt-get -y -qq install \
     crudini \
@@ -29,11 +29,11 @@ sudo apt-get -y -qq install \
     vim-scripts \
     zip >> $LOG 2>&1
 
-info-message "Install tools for Vmware."
+info-message "Install apt tools for Vmware."
 # shellcheck disable=SC2024
 sudo apt-get -y -qq install open-vm-tools-desktop fuse >> $LOG 2>&1
 
-info-message "Install apt packages for Cuckoo and other."
+info-message "Install apt packages for Cuckoo and Volatility."
 # shellcheck disable=SC2024
 sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     mongodb qemu-kvm bridge-utils yara python-yara libyara3 \
@@ -95,7 +95,7 @@ if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
         # Create default configuration
         cuckoo --cwd ~/src/cuckoo/.conf init
         # Download community rules and more
-        cuckoo --cwd /home/cert/src/cuckoo/.conf community
+        cuckoo --cwd ~/src/cuckoo/.conf community
     } >> "$LOG" 2>&1
     deactivate
     #mkdir storage
