@@ -103,14 +103,10 @@ if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
     info-message "Installed Cuckoo"
 fi
 
-# Install python packages globaly
-#sudo pip install maec pycrypto ujson mitmproxy distorm3 pytz \
-#    m2crypto simplejson pydeep netlib configargparse pyparsing \
-#    'construct<2.8' h2 click html2text watchdog tornado urwid blinker
+# Fix group rights
+sudo usermod -a -G libvirt "$USER"
 
-sudo usermod -a -G libvirt cuckoo
-
-# Let the cuckoo user access tcpdump
+# Let regular users access tcpdump
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 
 exit
