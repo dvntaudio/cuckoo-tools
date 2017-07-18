@@ -125,7 +125,7 @@ if [ ! -e ~/src/cuckoo/.conf/analyzer/windows/bin/cert.p12 ]; then
 fi
 
 # Configure Cuckoo
-ROOTDIR=~/src/cuckoo/.conf
+ROOTDIR=~/src/cuckoo/.conf/conf
 if [ ! -f $ROOTDIR/.configured ]; then
     INTERFACE=$(ip a s | grep UP | grep -E -v "lo:|virbr" | cut -f2 -d: | sed -e "s/ //g" | head -1)
     HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
