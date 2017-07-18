@@ -33,7 +33,7 @@ info-message "Install tools for Vmware."
 # shellcheck disable=SC2024
 sudo apt-get -y -qq install open-vm-tools-desktop fuse >> $LOG 2>&1
 
-info-message "Install packages for Cuckoo and other."
+info-message "Install apt packages for Cuckoo and other."
 # shellcheck disable=SC2024
 sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     mongodb qemu-kvm bridge-utils yara python-yara libyara3 \
@@ -44,7 +44,7 @@ sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     virtualenvwrapper libvirt-daemon-system libvirt-dev \
     libvirt-clients build-essential python-m2crypto mitmproxy >> $LOG 2>&1
 
-if [ ! -e /etc/suricata/suricata.yaml ]; then
+if ! grep cuckoo-tools /etc/suricata/suricata.yaml > /dev/null ; then
     info-message "Configure suricata"
     sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata/suricata.yaml
     sudo chown root:root /etc/suricata/suricata.yaml
@@ -150,7 +150,6 @@ if [ ! -f $ROOTDIR/.configured ]; then
     crudini --set  $ROOTDIR/reporting.conf reporthtml enabled yes
     crudini --set  $ROOTDIR/reporting.conf mongodb enabled yes
 
-    sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata
     touch $ROOTDIR/.configured
 fi
 
