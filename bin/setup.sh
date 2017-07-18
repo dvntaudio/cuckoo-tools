@@ -120,17 +120,20 @@ if [ ! -e ~/src/cuckoo/.conf/analyzer/windows/bin/cert.p12 ]; then
     kill -9 $MITM_PID > /dev/null 2>&1 | true
     cp ~/.mitmproxy/mitmproxy-ca-cert.p12 ~/src/cuckoo/.conf/analyzer/windows/bin/cert.p12
     sed -i -e 's/mitmdump, "-q",/mitmdump, "-q", "--no-http2",/' ~/.virtualenvs/cuckoo/lib/python2.7/site-packages/cuckoo/auxiliary/mitm.py
-    sed -i -e 's#/usr/local/bin/mitmdump#/usr/bin/mitmdump#' ~/.virtualenvs/cuckoo/lib/python2.7/site-packages/cuckoo/auxiliary/mitm.py
+    #sed -i -e 's#/usr/local/bin/mitmdump#/usr/bin/mitmdump#' ~/.virtualenvs/cuckoo/lib/python2.7/site-packages/cuckoo/auxiliary/mitm.py
     info-message "Fixed mitmproxy."
 fi
 
 # Configure Cuckoo
 ROOTDIR=~/src/cuckoo/.conf/conf
 if [ ! -f $ROOTDIR/.configured ]; then
+    info-message "Configure Cuckoo."
     INTERFACE=$(ip a s | grep UP | grep -E -v "lo:|virbr" | cut -f2 -d: | sed -e "s/ //g" | head -1)
     HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 
     crudini --set $ROOTDIR/auxiliary.conf mitm enabled yes
+    crudini --set $ROOTDIR/auxiliary.conf mitm mitmdump /usr/bin/mitmdump
+    # TODO add filter
     sed -i -e "s/# bpf = /bpf = /" $ROOTDIR/auxiliary.conf
 
     crudini --set $ROOTDIR/cuckoo.conf cuckoo machinery kvm
@@ -141,15 +144,20 @@ if [ ! -f $ROOTDIR/.configured ]; then
     crudini --set  $ROOTDIR/kvm.conf win7_x64 label win7_x64
     crudini --set  $ROOTDIR/kvm.conf win7_x64 snapshot snapshot1
 
-    crudini --set  $ROOTDIR/memory.conf win7_x64 guest_profile Win7SP1x64
+    crudini --set  $ROOTDIR/memory.conf basic guest_profile Win7SP1x64
 
     crudini --set  $ROOTDIR/processing.conf screenshots enabled yes
     crudini --set  $ROOTDIR/processing.conf suricata enabled yes
-    crudini --set  $ROOTDIR/processing.conf suricata socket /var/run/suricata/suricata-command.socket
+    crudini --set  $ROOTDIR/processing.conf suricata socket /var/run/suricata-command.socket
 
-    crudini --set  $ROOTDIR/reporting.conf reporthtml enabled yes
+    crudini --set  $ROOTDIR/reporting.conf singlefile enabled yes
+    crudini --set  $ROOTDIR/reporting.conf singlefile html yes
+    crudini --set  $ROOTDIR/reporting.conf singlefile pdf yes
     crudini --set  $ROOTDIR/reporting.conf mongodb enabled yes
 
     touch $ROOTDIR/.configured
+    info-message "Cuckoo configured."
 fi
+
+info-message "Done with setup.sh."
 
