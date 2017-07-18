@@ -83,10 +83,12 @@ if [ ! -d ~/src/volatility ]; then
         deactivate
         cd
     } >> "$LOG" 2>&1
+    info-message "Installed Volatility"
 fi
 
 # Install Cuckoo
 if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
+    info-message "Install Cuckoo"
     workon cuckoo || true
     pip install -U cuckoo distorm3 >> "$LOG" 2>&1
     cuckoo --cwd ~/src/cuckoo/.conf init >> "$LOG" 2>&1
@@ -98,6 +100,7 @@ if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
     #sudo pip install -r requirements.txt
     #./utils/community.py -wafb master
     #cd
+    info-message "Installed Cuckoo"
 fi
 
 # Install python packages globaly
