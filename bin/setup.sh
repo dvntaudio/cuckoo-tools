@@ -90,16 +90,18 @@ fi
 if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
     info-message "Install Cuckoo"
     workon cuckoo || true
-    pip install -U cuckoo distorm3 >> "$LOG" 2>&1
-    cuckoo --cwd ~/src/cuckoo/.conf init >> "$LOG" 2>&1
+    {
+        pip install -U cuckoo distorm3
+        # Create default configuration
+        cuckoo --cwd ~/src/cuckoo/.conf init
+        # Download community rules and more
+        cuckoo --cwd /home/cert/src/cuckoo/.conf community
+    } >> "$LOG" 2>&1
     deactivate
     #mkdir storage
     #sudo setfacl -R -m user:cuckoo:7 storage
     #sudo setfacl -d -R -m user:cuckoo:7 storage
     #mkdir log
-    #sudo pip install -r requirements.txt
-    #./utils/community.py -wafb master
-    #cd
     info-message "Installed Cuckoo"
 fi
 
@@ -109,6 +111,7 @@ sudo usermod -a -G libvirt "$USER"
 # Let regular users access tcpdump
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 
+# Mitmproxy
 if [ ! -e ~/src/cuckoo/.conf/analyzer/windows/bin/cert.p12 ]; then
     info-message "Fix certificate for mitmproxy."
     mitmproxy >> ~/src/cuckoo/log/mitmproxy 2>&1 &
@@ -121,31 +124,33 @@ if [ ! -e ~/src/cuckoo/.conf/analyzer/windows/bin/cert.p12 ]; then
     info-message "Fixed mitmproxy."
 fi
 
-exit
-
 # Configure Cuckoo
-ROOTDIR=~/src/cuckoo/conf
-HOSTIP=$(ip a s dev eth0 | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
+ROOTDIR=~/src/cuckoo/.conf
+if [ ! -f $ROOTDIR/.configured ]; then
+    INTERFACE=$(ip a s | grep UP | grep -E -v "lo:|virbr" | cut -f2 -d: | sed -e "s/ //g" | head -1)
+    HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 
-crudini --set $ROOTDIR/auxiliary.conf mitm enabled yes
-sed -i -e "s/# bpf = /bpf = /" $ROOTDIR/auxiliary.conf
+    crudini --set $ROOTDIR/auxiliary.conf mitm enabled yes
+    sed -i -e "s/# bpf = /bpf = /" $ROOTDIR/auxiliary.conf
 
-crudini --set $ROOTDIR/cuckoo.conf cuckoo machinery kvm
-sed -i -e "s/ip = 192.168.56.1/ip = $HOSTIP/" $ROOTDIR/cuckoo.conf
+    crudini --set $ROOTDIR/cuckoo.conf cuckoo machinery kvm
+    sed -i -e "s/ip = 192.168.56.1/ip = $HOSTIP/" $ROOTDIR/cuckoo.conf
 
-crudini --set  $ROOTDIR/kvm.conf kvm machines win7_x64
-sed -i -e "s/\[cuckoo1\]/\[win7_x64\]/" $ROOTDIR/kvm.conf
-crudini --set  $ROOTDIR/kvm.conf win7_x64 label win7_x64
-crudini --set  $ROOTDIR/kvm.conf win7_x64 snapshot snapshot1
+    crudini --set  $ROOTDIR/kvm.conf kvm machines win7_x64
+    sed -i -e "s/\[cuckoo1\]/\[win7_x64\]/" $ROOTDIR/kvm.conf
+    crudini --set  $ROOTDIR/kvm.conf win7_x64 label win7_x64
+    crudini --set  $ROOTDIR/kvm.conf win7_x64 snapshot snapshot1
 
-crudini --set  $ROOTDIR/memory.conf win7_x64 guest_profile Win7SP1x64
+    crudini --set  $ROOTDIR/memory.conf win7_x64 guest_profile Win7SP1x64
 
-crudini --set  $ROOTDIR/processing.conf screenshots enabled yes
-crudini --set  $ROOTDIR/processing.conf suricata enabled yes
-crudini --set  $ROOTDIR/processing.conf suricata socket /var/run/suricata/suricata-command.socket
+    crudini --set  $ROOTDIR/processing.conf screenshots enabled yes
+    crudini --set  $ROOTDIR/processing.conf suricata enabled yes
+    crudini --set  $ROOTDIR/processing.conf suricata socket /var/run/suricata/suricata-command.socket
 
-crudini --set  $ROOTDIR/reporting.conf reporthtml enabled yes
-crudini --set  $ROOTDIR/reporting.conf mongodb enabled yes
+    crudini --set  $ROOTDIR/reporting.conf reporthtml enabled yes
+    crudini --set  $ROOTDIR/reporting.conf mongodb enabled yes
 
-sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata
+    sudo cp ~/cuckoo-tools/files/suricata.yaml /etc/suricata
+    touch $ROOTDIR/.configured
+fi
 
