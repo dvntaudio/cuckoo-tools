@@ -6,6 +6,8 @@ touch "$LOG"
 
 # shellcheck disable=SC1090
 . ~/cuckoo-tools/bin/common.sh
+# shellcheck disable=SC1091
+. /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 if [ !  -z "$MOUNTP" ]; then
     if [ ! -d ~/shared ]; then
@@ -39,7 +41,7 @@ if [ ! -z "$LAST_UPDATE_RULES" ]; then
     update_rules
 fi
 
-echo -n "Starting Suricata for Cuckoo."
+info-message "Starting Suricata for Cuckoo."
 if ! systemctl status suricata.service | grep "Active: inactive" > /dev/null ; then
     sudo systemctl stop suricata.service
     sleep 1
@@ -49,13 +51,12 @@ sudo pkill -f "suricata --unix-socket"
 
 # shellcheck disable=SC2024
 sudo suricata --unix-socket -D > ~/src/cuckoo/log/suricata.log 2>&1
-echo "Done."
+info-message "Started suricata."
 
-echo -n "Waiting for Suricata socket. "
+info-message "Waiting for Suricata socket. "
 while [ ! -e /var/run/suricata-command.socket ]; do
     sleep 1
 done
-echo "Done."
 info-message "Setting access rights on suricata socket."
 sudo chown cuckoo:cuckoo /var/run/suricata* > /dev/null 2>&1
 
