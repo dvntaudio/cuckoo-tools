@@ -64,7 +64,8 @@ if [ ! -d ~/.virtualenvs/cuckoo ]; then
     # Use python-m2crypto from Debian. Doesn't compile from pip
     mkvirtualenv --system-site-packages cuckoo >> "$LOG" 2>&1 || true
     {
-        mkdir -p ~/src/cuckoo/log
+        mkdir -p ~/src/cuckoo
+        ln -s ~/src/cuckoo/.conf/log ~/src/cuckoo/log
         cd ~/src/cuckoo || exit 1
         setvirtualenvproject
         pip install -U pip setuptools
