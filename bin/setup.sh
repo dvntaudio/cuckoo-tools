@@ -93,7 +93,7 @@ if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
     info-message "Install Cuckoo"
     workon cuckoo || true
     {
-        pip install -U cuckoo distorm3
+        pip install -U cuckoo distorm3 weasyprint
         # Create default configuration
         cuckoo --cwd ~/src/cuckoo/.conf init
         # Download community rules and more
@@ -109,6 +109,7 @@ fi
 
 # Fix group rights
 sudo usermod -a -G libvirt "$USER"
+sudo usermod -a -G libvirt-qemu "$USER"
 
 # Let regular users access tcpdump
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
