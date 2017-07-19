@@ -49,8 +49,9 @@ fi
 # Stop previous versions of suricata started by this script
 sudo pkill -f "suricata --unix-socket"
 
-# Remove old socket
+# Remove old socket and pid file
 rm -f /var/run/suricata-command.socket > /dev/null 2>&1
+rm -f /var/run/suricata.pid > /dev/null 2>&1
 
 # shellcheck disable=SC2024
 sudo suricata --unix-socket -D > ~/src/cuckoo/log/suricata.log 2>&1
