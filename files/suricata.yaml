@@ -72,7 +72,7 @@ default-log-dir: /var/log/suricata/
 # the file name of the socket.
 unix-command:
   enabled: yes
-  filename: suricata-command.socket
+  filename: /var/run/suricata-command.socket
 
 # Configure the type of alert (and other) logging you would like.
 outputs:
@@ -786,7 +786,7 @@ logging:
   - console:
       enabled: yes
   - file:
-      enabled: no
+      enabled: yes
       filename: /var/log/suricata.log
   - syslog:
       enabled: no
