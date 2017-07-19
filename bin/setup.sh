@@ -65,6 +65,7 @@ if [ ! -d ~/.virtualenvs/cuckoo ]; then
     mkvirtualenv --system-site-packages cuckoo >> "$LOG" 2>&1 || true
     {
         mkdir -p ~/src/cuckoo/log
+        cd ~/src/cuckoo || exit 1
         setvirtualenvproject
         pip install -U pip setuptools
     } >> "$LOG" 2>&1
