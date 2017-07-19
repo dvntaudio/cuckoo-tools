@@ -66,20 +66,20 @@ INTERFACE=$(ip addr s | grep UP | grep -v lo: | grep -v virbr | cut -d: -f2 | se
 HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 sed -i -e "s/ip = .*/ip = $HOSTIP/" ~/src/cuckoo/.conf/conf/cuckoo.conf
 workon cuckoo
-cuckoo.py -d >> log/cuckoo-cmd.log 2>&1 &
+cuckoo -d >> ~/src/cuckoo/log/cuckoo-cmd.log 2>&1 &
 info-message "Cuckoo started."
 
 cd .conf/web || exit 1
 
 info-message "Starting Cuckoo web."
-cuckoo web runserver >> ../log/web.log 2>&1 &
+cuckoo web runserver >> ~/src/cuckoo/log/web.log 2>&1 &
 info-message "Cuckoo web server running."
 cd ..
 
 info-message "Waiting two seconds before starting Firefox."
 sleep 2
 info-message "Starting Firefox."
-firefox http://127.0.0.1:8000 >> log/iceweasel 2>&1 &
+firefox http://127.0.0.1:8000 >> ~/src/cuckoo/log/firefox.log 2>&1 &
 
 info-message "Cuckoo startup done."
 
