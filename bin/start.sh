@@ -80,8 +80,8 @@ cuckoo web runserver >> ~/src/cuckoo/log/web.log 2>&1 &
 info-message "Cuckoo web server running."
 cd ..
 
-info-message "Waiting two seconds before starting Firefox."
-sleep 2
+info-message "Waiting five seconds before starting Firefox."
+sleep 5
 info-message "Starting Firefox."
 firefox http://127.0.0.1:8000 >> ~/src/cuckoo/log/firefox.log 2>&1 &
 
