@@ -4,6 +4,9 @@ MOUNTP=$(vmware-hgfsclient)
 LOG=/tmp/cuckoo-tools.log
 touch "$LOG"
 
+CUCKOO=~/src/cuckoo/.conf
+export CUCKOO
+
 # shellcheck disable=SC1090
 . ~/cuckoo-tools/bin/common.sh
 # shellcheck disable=SC1091
