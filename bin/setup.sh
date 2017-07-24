@@ -100,7 +100,6 @@ if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
         cuckoo --cwd ~/src/cuckoo/.conf community
     } >> "$LOG" 2>&1
     deactivate
-    mkdir ~/src/cuckoo/.conf/storage
     sudo setfacl -R -m user:cuckoo:7 ~/src/cuckoo/.conf/storage
     sudo setfacl -d -R -m user:cuckoo:7 ~/src/cuckoo/.conf/storage
     info-message "Installed Cuckoo"
