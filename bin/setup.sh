@@ -132,6 +132,10 @@ if [ ! -f $ROOTDIR/.configured ]; then
     INTERFACE=$(ip a s | grep UP | grep -E -v "lo:|virbr" | cut -f2 -d: | sed -e "s/ //g" | head -1)
     HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 
+    if ! grep 400 /etc/iproute2/rt_tables > /dev/null 2>&1 ; then
+        echo "400   $INTERFACE" | sudo tee -a /etc/iproute2/rt_tables
+    fi
+
     crudini --set $ROOTDIR/auxiliary.conf mitm enabled yes
     crudini --set $ROOTDIR/auxiliary.conf mitm mitmdump /usr/bin/mitmdump
     # TODO add filter
@@ -150,6 +154,8 @@ if [ ! -f $ROOTDIR/.configured ]; then
     crudini --set  $ROOTDIR/processing.conf screenshots enabled yes
     crudini --set  $ROOTDIR/processing.conf suricata enabled yes
     crudini --set  $ROOTDIR/processing.conf suricata socket /var/run/suricata-command.socket
+
+    crudini --set  $ROOTDIR/routing.conf routing internet "$INTERFACE"
 
     crudini --set  $ROOTDIR/reporting.conf singlefile enabled yes
     crudini --set  $ROOTDIR/reporting.conf singlefile html yes
