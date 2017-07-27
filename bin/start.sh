@@ -1,9 +1,16 @@
 #!/bin/bash
 
 MOUNTP=$(vmware-hgfsclient)
+LOG=/tmp/cuckoo-tools.log
+touch "$LOG"
+
+CUCKOO=~/src/cuckoo/.conf
+export CUCKOO
 
 # shellcheck disable=SC1090
 . ~/cuckoo-tools/bin/common.sh
+# shellcheck disable=SC1091
+. /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 if [ !  -z "$MOUNTP" ]; then
     if [ ! -d ~/shared ]; then
@@ -16,62 +23,77 @@ STATE=$(sudo virsh net-list | grep default | awk '{print $2}')
 AUTO=$(sudo virsh net-list | grep default | awk '{print $3}')
 
 if [ "$STATE" != "active" ]; then
+    info-message "Start default network."
     sudo virsh net-start default
 fi
 
 if [ "$AUTO" == "no" ]; then
+    info-message "Start default network."
     sudo virsh net-autostart default
 fi
 
-if [ -e /var/run/suricata/suricata-command.socket ]; then
-    sudo rm -f /var/run/suricata/suricata-command.socket
-fi
-
 if [ ! -e /etc/suricata/rules/tor.rules ]; then
+    info-message "Download rules for the first time."
     update_rules
 fi
 
 LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 
-[ ! -z "$LAST_UPDATE_RULES" ] && update_rules
+if [ ! -z "$LAST_UPDATE_RULES" ]; then
+    info-message "Rules to old, updating."
+    update_rules
+fi
 
-echo -n "Starting Suricata. "
+info-message "Starting Suricata for Cuckoo."
+if ! systemctl status suricata.service | grep "Active: inactive" > /dev/null ; then
+    sudo systemctl stop suricata.service
+    sleep 1
+fi
+# Stop previous versions of suricata started by this script
+sudo pkill -f "suricata --unix-socket"
+
+# Remove old socket and pid file
+rm -f /var/run/suricata-command.socket > /dev/null 2>&1
+rm -f /var/run/suricata.pid > /dev/null 2>&1
+
 # shellcheck disable=SC2024
 sudo suricata --unix-socket -D > ~/src/cuckoo/log/suricata.log 2>&1
-echo "Done."
+info-message "Started suricata."
 
-echo -n "Waiting for Suricata socket. "
-while [ ! -e /var/run/suricata/suricata-command.socket ]; do
+info-message "Waiting for Suricata socket. "
+while [ ! -e /var/run/suricata-command.socket ]; do
     sleep 1
-    sudo chown cuckoo:cuckoo /var/run/suricata/ > /dev/null 2>&1
 done
-echo "Done."
-
-sudo chown cuckoo:cuckoo /var/run/suricata/suricata-command.socket
-
-echo -n "Staring rooter script as root. "
-# shellcheck disable=SC2024
-sudo ~/src/cuckoo/utils/rooter.py -v -g cuckoo > \
-    ~/src/cuckoo/log/rooter.log 2>&1 &
-sleep 3
-echo "Done."
+info-message "Setting access rights on suricata socket."
+sudo chown cuckoo:cuckoo /var/run/suricata* > /dev/null 2>&1
 
 cd ~/src/cuckoo || exit 1
-echo -n "Starting Cuckoo server."
-HOSTIP=$(ip a s dev eth0 | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
-sed -i -e "s/ip = .*/ip = $HOSTIP/" ~/src/cuckoo/conf/cuckoo.conf
-./cuckoo.py -d >> log/cuckoo-cmd.log 2>&1 &
-echo "Done."
-cd web || exit 1
+workon cuckoo
 
-echo -n "Starting cuckoo web."
-python manage.py runserver >> ../log/web.log 2>&1 &
-echo "Done."
+info-message "Staring rooter script as root. "
+# shellcheck disable=SC2024
+cuckoo rooter --sudo -g cuckoo >> ~/src/cuckoo/log/rooter.log 2>&1 &
+sleep 3
+info-message "Rooter running"
+
+info-message "Starting Cuckoo server."
+INTERFACE=$(ip addr s | grep UP | grep -v lo: | grep -v virbr | cut -d: -f2 | sed -e "s/ //g")
+HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
+sed -i -e "s/ip = .*/ip = $HOSTIP/" ~/src/cuckoo/.conf/conf/cuckoo.conf
+cuckoo -d >> ~/src/cuckoo/log/cuckoo-cmd.log 2>&1 &
+info-message "Cuckoo started."
+
+cd .conf/web || exit 1
+
+info-message "Starting Cuckoo web."
+cuckoo web runserver >> ~/src/cuckoo/log/web.log 2>&1 &
+info-message "Cuckoo web server running."
 cd ..
 
-echo -n "Waiting to start Iceeasel. "
-sleep 2
-echo -n "Starting. "
-iceweasel http://127.0.0.1:8000 >> log/iceweasel 2>&1 &
-echo "Done."
+info-message "Waiting five seconds before starting Firefox."
+sleep 5
+info-message "Starting Firefox."
+firefox http://127.0.0.1:8000 >> ~/src/cuckoo/log/firefox.log 2>&1 &
+
+info-message "Cuckoo startup done."
 

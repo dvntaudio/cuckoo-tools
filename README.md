@@ -1,16 +1,16 @@
 cuckoo-tools
 ============
 
-This a collection of scripts that installs Cuckoo 2.0-dev and required tools to easy the setup of a new environment.
+This a collection of scripts that installs Cuckoo 2.0 and required tools.
 
 Setup Cuckoo
 ============
 
-The script is last tested with Debian 8.6. I installed Debian from the [mini.iso](http://ftp.se.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/mini.iso). Basic setup with LVM and no print server. The installation instructions below assumes that the username is _cuckoo_. 
+The script is last tested with Debian 9.0. I installed Debian from the debian target in my [packer](https://github.com/reuteras/packer) repo. 
 
 To run Cuckoo inside VMware Fusion or other similar tool you first have to enable the possibility to run a hypervisor in the virtual machine. 
 
-When you're done with the steps below you should have a working copy of Cuckoo 2.0-dev. This script checks out Cuckoo master branch from git. Cuckoo and Volatility is installed under _~/src_. If you would like to change anything in the Cuckoo conf the files are located under _~src/cuckoo/conf/_. The setup scripts edits some of the configuration files.
+When you're done with the steps below you should have a working copy of Cuckoo 2.0. Cuckoo and Volatility is installed under _~/src_. If you would like to change anything in the Cuckoo conf the files are located under _~src/cuckoo/.conf/conf/_. The setup scripts edits some of the configuration files.
 
 First thing to do is install **sudo** and **git**. For this you have to *su -* to *root*. This is the only thing you should run in a root shell. Everything else should be executed as the _cuckoo_ user.
 
@@ -22,7 +22,7 @@ First thing to do is install **sudo** and **git**. For this you have to *su -* t
 You have to logout for the group membership changes to take effect. Login in again as the _cuckoo_ user.
 
     git clone https://github.com/reuteras/cuckoo-tools.git
-    # This is a good time to change screen settings and other preferences.
+    # Change screen settings and other preferences.
     # Enable folder sharing to make it easier to share malware
 
 This is a good time to shutdown the virtual machine and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/).
@@ -34,8 +34,7 @@ You now have a default configuration for a Win 7 x86-64 virtual machine in KVM.
 
 Optional steps to use my _.bashrc_ and _.vimrc_.
 
-    make
-    . ~/.bashrc
+    make install
     sudo reboot     # make sure VMware hgfs works.
 
 Install a Windows machine
@@ -62,7 +61,7 @@ Install some basic tools for Cuckoo. When IE starts remember to turn of SmartScr
 
 * https://www.python.org/getit/ - Python 2.7.x. Install 32-bit version.
 * http://www.pythonware.com/products/pil/
-* https://raw.githubusercontent.com/cuckoosandbox/cuckoo/master/agent/agent.py
+* https://raw.githubusercontent.com/cuckoosandbox/cuckoo/master/cuckoo/data/agent/agent.py
 
 Save _agent.py_ as _agent.pyw_ and add it to the _Startup_ folder.
 
@@ -82,6 +81,7 @@ Remember to
 * Change screen resolution to 1024x768 or higher.
 * Change background.
 * Add some files and bookmarks.
+* Disable update services
 
 Other things to consider includes
 

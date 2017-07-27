@@ -1,6 +1,8 @@
 %YAML 1.1
 ---
 
+# cuckoo-tools
+
 # Suricata configuration file. In addition to the comments describing all
 # options in this file, full documentation can be found at:
 # https://redmine.openinfosecfoundation.org/projects/suricata/wiki/Suricatayaml
@@ -70,7 +72,7 @@ default-log-dir: /var/log/suricata/
 # the file name of the socket.
 unix-command:
   enabled: yes
-  filename: suricata-command.socket
+  filename: /var/run/suricata-command.socket
 
 # Configure the type of alert (and other) logging you would like.
 outputs:
@@ -784,7 +786,7 @@ logging:
   - console:
       enabled: yes
   - file:
-      enabled: no
+      enabled: yes
       filename: /var/log/suricata.log
   - syslog:
       enabled: no
