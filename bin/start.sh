@@ -68,6 +68,7 @@ info-message "Setting access rights on suricata socket."
 sudo chown cuckoo:cuckoo /var/run/suricata* > /dev/null 2>&1
 
 cd ~/src/cuckoo || exit 1
+workon cuckoo
 
 info-message "Staring rooter script as root. "
 # shellcheck disable=SC2024
@@ -79,7 +80,6 @@ info-message "Starting Cuckoo server."
 INTERFACE=$(ip addr s | grep UP | grep -v lo: | grep -v virbr | cut -d: -f2 | sed -e "s/ //g")
 HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 sed -i -e "s/ip = .*/ip = $HOSTIP/" ~/src/cuckoo/.conf/conf/cuckoo.conf
-workon cuckoo
 cuckoo -d >> ~/src/cuckoo/log/cuckoo-cmd.log 2>&1 &
 info-message "Cuckoo started."
 
