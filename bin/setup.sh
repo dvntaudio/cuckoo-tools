@@ -41,7 +41,7 @@ sudo apt-get -y -qq install python python-dev libffi-dev libssl-dev \
     suricata tesseract-ocr libjpeg-dev linux-headers-"$(uname -r)" ssdeep \
     libfuzzy-dev libxml2-dev libxslt-dev libyaml-dev zlib1g-dev \
     python-virtualenv python-setuptools postgresql libpq-dev \
-    virtualenvwrapper libvirt-daemon-system libvirt-dev \
+    virtualenvwrapper libvirt-daemon-system libvirt-dev net-tools \
     libvirt-clients build-essential python-m2crypto mitmproxy >> $LOG 2>&1
 
 if ! grep cuckoo-tools /etc/suricata/suricata.yaml > /dev/null ; then
