@@ -62,7 +62,7 @@ source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 if [ ! -d ~/.virtualenvs/cuckoo ]; then
     info-message "Create virtualenv for Cuckoo."
     # Use python-m2crypto from Debian. Doesn't compile from pip
-    mkvirtualenv --system-site-packages cuckoo >> "$LOG" 2>&1 || true
+    mkvirtualenv cuckoo >> "$LOG" 2>&1 || true
     {
         mkdir -p ~/src/cuckoo
         ln -s ~/src/cuckoo/.conf/log ~/src/cuckoo/log
@@ -93,7 +93,7 @@ if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
     info-message "Install Cuckoo"
     workon cuckoo || true
     {
-        pip install -U cuckoo distorm3 weasyprint
+        pip install -U cuckoo distorm3 weasyprint libvirt-python
         # Create default configuration
         cuckoo --cwd ~/src/cuckoo/.conf init
         # Download community rules and more
