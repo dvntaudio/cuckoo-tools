@@ -133,7 +133,7 @@ if [ ! -f $ROOTDIR/.configured ]; then
     HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 
     if ! grep 400 /etc/iproute2/rt_tables > /dev/null 2>&1 ; then
-        echo "400   $INTERFACE" | sudo tee -a /etc/iproute2/rt_tables
+        echo "400   $INTERFACE" | sudo tee -a /etc/iproute2/rt_tables > /dev/null
     fi
 
     crudini --set $ROOTDIR/auxiliary.conf mitm enabled yes
