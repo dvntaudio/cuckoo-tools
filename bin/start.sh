@@ -64,8 +64,6 @@ info-message "Waiting for Suricata socket. "
 while [ ! -e /var/run/suricata-command.socket ]; do
     sleep 1
 done
-info-message "Setting access rights on suricata socket."
-sudo chown cuckoo:cuckoo /var/run/suricata* > /dev/null 2>&1
 
 cd ~/src/cuckoo || exit 1
 workon cuckoo
@@ -76,11 +74,16 @@ cuckoo rooter --sudo -g cuckoo >> ~/src/cuckoo/log/rooter.log 2>&1 &
 sleep 3
 info-message "Rooter running"
 
+info-message "Setting access rights on suricata socket."
+# shellcheck disable=SC2024
+sudo chown cuckoo:cuckoo /var/run/suricata* >> ~/src/cuckoo/log/rooter.log 2>&1
+
 info-message "Starting Cuckoo server."
 INTERFACE=$(ip addr s | grep UP | grep -v lo: | grep -v virbr | cut -d: -f2 | sed -e "s/ //g")
 HOSTIP=$(ip a s dev "$INTERFACE" | grep "inet " | awk '{print $2}' | sed -e "s:/.*::")
 sed -i -e "s/ip = .*/ip = $HOSTIP/" ~/src/cuckoo/.conf/conf/cuckoo.conf
 cuckoo -d >> ~/src/cuckoo/log/cuckoo-cmd.log 2>&1 &
+sleep 3
 info-message "Cuckoo started."
 
 cd .conf/web || exit 1
@@ -92,6 +95,11 @@ cd ..
 
 info-message "Waiting five seconds before starting Firefox."
 sleep 5
+
+# Make sure no process has changed the rights.
+# shellcheck disable=SC2024
+sudo chown cuckoo:cuckoo /var/run/suricata* >> ~/src/cuckoo/log/rooter.log 2>&1
+
 info-message "Starting Firefox."
 firefox http://127.0.0.1:8000 >> ~/src/cuckoo/log/firefox.log 2>&1 &
 
