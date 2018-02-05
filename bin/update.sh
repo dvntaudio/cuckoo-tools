@@ -14,5 +14,7 @@ LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 
 [ ! -z "$LAST_UPDATE_RULES" ] && update_rules
 
-# cd ~/src/cuckoo && ./utils/community.py -waf
-# sudo pip install --force-reinstall -r requirements.txt
+workon cuckoo
+pip install -U pip setuptools
+pip install -U cuckoo
+deactivate
