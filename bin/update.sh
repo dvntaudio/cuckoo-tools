@@ -14,6 +14,7 @@ export CUCKOO
 # Update Debian
 # shellcheck disable=SC2024
 sudo apt-get update >> "$LOG" 2>&1
+# shellcheck disable=SC2024
 sudo apt-get -y dist-upgrade >> "$LOG" 2>&1
 
 if [ ! -e /etc/suricata/rules/tor.rules ]; then
@@ -25,6 +26,9 @@ LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 [ ! -z "$LAST_UPDATE_RULES" ] && update_rules
 
 workon cuckoo
-pip install -U pip setuptools >> "$LOG" 2>&1
-pip install -U cuckoo >> "$LOG" 2>&1
+{
+    pip install -U pip setuptools
+    pip install -U cuckoo
+    cuckoo community
+} >> "$LOG" 2>&1
 deactivate

@@ -6,9 +6,9 @@ This a collection of scripts that installs Cuckoo 2.0 and required tools.
 Setup Cuckoo
 ============
 
-The script is last tested with Debian 9.0. I installed Debian from the debian target in my [packer](https://github.com/reuteras/packer) repo. 
+The script is last tested with Debian 9.3. I installed Debian from the debian target in my [packer](https://github.com/reuteras/packer) repo.
 
-To run Cuckoo inside VMware Fusion or other similar tool you first have to enable the possibility to run a hypervisor in the virtual machine. 
+To run Cuckoo inside VMware Fusion or other similar tool you first have to enable the possibility to run a hypervisor in the virtual machine.
 
 When you're done with the steps below you should have a working copy of Cuckoo 2.0. Cuckoo and Volatility is installed under _~/src_. If you would like to change anything in the Cuckoo conf the files are located under _~src/cuckoo/.conf/conf/_. The setup scripts edits some of the configuration files.
 
@@ -26,7 +26,7 @@ You have to logout for the group membership changes to take effect. Login in aga
     # Enable folder sharing to make it easier to share malware
 
 This is a good time to shutdown the virtual machine and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/).
-    
+
     cd cuckoo-tools
     ./bin/setup.sh      # go get a cup of coffe...
 
