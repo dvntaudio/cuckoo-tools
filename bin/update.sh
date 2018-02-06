@@ -13,7 +13,8 @@ export CUCKOO
 
 # Update Debian
 # shellcheck disable=SC2024
-sudo apt-get update && sudo apt-get dist-upgrade >> "$LOG" 2>&1
+sudo apt-get update >> "$LOG" 2>&1
+sudo apt-get -y dist-upgrade >> "$LOG" 2>&1
 
 if [ ! -e /etc/suricata/rules/tor.rules ]; then
     update_rules
