@@ -19,6 +19,7 @@ while ! sudo apt-get -y dist-upgrade >> "$LOG" 2>&1 ; do
     echo "APT busy. Will retry in 10 seconds."
     sleep 10
 done
+info-message "Done with apt-get dist-upgrade."
 
 if [ ! -e /etc/suricata/rules/tor.rules ]; then
     update_rules
@@ -31,7 +32,11 @@ LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 workon cuckoo
 {
     pip install -U pip setuptools
+    info-message "Updated pip and setuptools."
     pip install -U cuckoo
+    info-message "Updated cuckoo."
     cuckoo community
+    info-message "Updated cuckoo community files."
 } >> "$LOG" 2>&1
 deactivate
+info-message "Update done."
