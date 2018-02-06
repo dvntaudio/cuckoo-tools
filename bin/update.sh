@@ -15,7 +15,10 @@ export CUCKOO
 # shellcheck disable=SC2024
 sudo apt-get update >> "$LOG" 2>&1
 # shellcheck disable=SC2024
-sudo apt-get -y dist-upgrade >> "$LOG" 2>&1
+while ! sudo apt-get -y dist-upgrade >> "$LOG" 2>&1 ; do
+    echo "APT busy. Will retry in 10 seconds."
+    sleep 10
+done
 
 if [ ! -e /etc/suricata/rules/tor.rules ]; then
     update_rules
