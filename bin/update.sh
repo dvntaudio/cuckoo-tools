@@ -30,13 +30,11 @@ LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 [ ! -z "$LAST_UPDATE_RULES" ] && update_rules
 
 workon cuckoo
-{
-    pip install -U pip setuptools
-    info-message "Updated pip and setuptools."
-    pip install -U cuckoo
-    info-message "Updated cuckoo."
-    cuckoo community
-    info-message "Updated cuckoo community files."
-} >> "$LOG" 2>&1
+pip install -U pip setuptools >> "$LOG" 2>&1
+info-message "Updated pip and setuptools."
+pip install -U cuckoo >> "$LOG" 2>&1
+info-message "Updated cuckoo."
+cuckoo community >> "$LOG" 2>&1
+info-message "Updated cuckoo community files."
 deactivate
 info-message "Update done."
