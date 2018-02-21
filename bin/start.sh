@@ -71,7 +71,7 @@ workon cuckoo
 info-message "Staring rooter script as root. "
 # shellcheck disable=SC2024
 cuckoo rooter --sudo -g cuckoo >> ~/src/cuckoo/log/rooter.log 2>&1 &
-sleep 3
+sleep 10
 info-message "Rooter running"
 
 info-message "Setting access rights on suricata socket."
