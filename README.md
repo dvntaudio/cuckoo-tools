@@ -1,18 +1,17 @@
-cuckoo-tools
-============
+# cuckoo-tools
 
 This a collection of scripts that installs Cuckoo 2.0 and required tools.
 
-Setup Cuckoo
-============
+## Requirements
 
-The script is last tested with Debian 9.3. I installed Debian from the debian target in my [packer](https://github.com/reuteras/packer) repo.
+* To run Cuckoo inside VMware Fusion you must enable support for a hypervisor in the virtual machine.
+* The script is last tested with Debian 9.6.
 
-To run Cuckoo inside VMware Fusion or other similar tool you first have to enable the possibility to run a hypervisor in the virtual machine.
+## Setup Cuckoo
 
-When you're done with the steps below you should have a working copy of Cuckoo 2.0. Cuckoo and Volatility is installed under _~/src_. If you would like to change anything in the Cuckoo conf the files are located under _~src/cuckoo/.conf/conf/_. The setup scripts edits some of the configuration files.
+I install Debian and run this script automatically from the cuckoo target in my [packer](https://github.com/reuteras/packer) repo which means I can skip directly to the section on how to install a Windows machine.
 
-First thing to do is install **sudo** and **git**. For this you have to *su -* to *root*. This is the only thing you should run in a root shell. Everything else should be executed as the _cuckoo_ user.
+First thing is install **sudo** and **git**. For this you have to *su -* to *root*. This is the _only_ thing you should run in a root shell. Everything else should be executed as the _cuckoo_ user.
 
     su -
     apt-get install -y sudo git
@@ -28,7 +27,7 @@ You have to logout for the group membership changes to take effect. Login in aga
 This is a good time to shutdown the virtual machine and take a snapshot if anything breaks during the installation of [Cuckoo](https://cuckoosandbox.org/).
 
     cd cuckoo-tools
-    ./bin/setup.sh      # go get a cup of coffe...
+    ./bin/setup.sh      # go get a cup of coffee...
 
 You now have a default configuration for a Win 7 x86-64 virtual machine in KVM.
 
@@ -37,8 +36,7 @@ Optional steps to use my _.bashrc_ and _.vimrc_.
     make install
     sudo reboot     # make sure VMware hgfs works.
 
-Install a Windows machine
-=========================
+## Install a Windows machine
 
 Share a folder with your virtual machine and mount it. If you have installed my .bashrc you can just run
 
@@ -93,35 +91,22 @@ Note the ip address and enter it in cuckoo/conf/kvm.conf.
 
 Start _agent.pyw_ and take a snapshot of the running instance of Windows. Call the snapshot _snapshot1_.
 
-Enable OVPN
-===========
+## Enable OVPN
 
-I use [OVPN](https://www.ovpn.se/) as my VPN provider and you can enable support for it this way if you have an account. I tried to use it with the built in support i Cuckoo 2.0-dev but didn't get it to work correctly so now the script enables VPN globally for Debian.
+I use [OVPN](https://www.ovpn.com/) as my VPN provider and you can enable support for it this way if you have an account. I tried to use it with the built in support in Cuckoo 2.0-dev but didn't get it to work correctly so now the script enables VPN globally for Debian.
 
 First create a file with your OVPN login information. I'll call the file ovpn-account.txt. Type your username on the first line and your password on the second line. Then run
 
     ./bin/enable-global-ovpn.sh ~/shared/ovpn-account.txt
 
-Using Cuckoo
-============
+## Using Cuckoo
 
-The included start script for Cuckoo will install and update Snort rules for Suricata in Cuckoo. New rules are downloaded it the curren ones are older then 24 hours. The script will also update cuckoo.conf with the curren IP address of eth0.
+You should now have a working copy of Cuckoo 2.0. Cuckoo and Volatility are installed in _~/src_. If you would like to change anything in the Cuckoo conf the files are located under _~src/cuckoo/.conf/conf/_. The setup scripts makes some changes to the default configuration files.
+
+The included start script for Cuckoo will install and update Snort rules for Suricata in Cuckoo. New rules are downloaded if the current ones are older then 24 hours. The script will also update cuckoo.conf with the current IP address of eth0.
 
 Start Cuckoo:
 
     ./bin/start.sh
 
 To test your installation you can download malware from http://www.tekdefense.com/downloads/malware-samples/. I recommend [340s.exe.zip](http://www.tekdefense.com/downloads/malware-samples/340s.exe.zip) which should trigger some Suricata rules. The files are password protected with the password "infected".
-
-Running under libvirt
-=====================
-
-If you use libvirt and kvm to run the Cuckoo server you have to enable support for kvm in kvm. From [this](http://kashyapc.com/2012/01/14/nested-virtualization-with-kvm-intel/) page I found the instruction to add the following to _/etc/modprobe.d/local.conf_:
-
-    options kvm-intel nested=y
-
-You can verify that this is enabled and working:
-
-    cat /sys/module/kvm_intel/parameters/nested
-    Y
-
