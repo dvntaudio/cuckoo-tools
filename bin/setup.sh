@@ -93,7 +93,7 @@ if [ ! -f ~/.virtualenvs/cuckoo/bin/cuckoo ]; then
     info-message "Install Cuckoo"
     workon cuckoo || true
     {
-        pip install -U cuckoo distorm3 libvirt-python WeasyPrint
+        pip install -U cuckoo distorm3 libvirt-python WeasyPrint==0.42.3
         # Create default configuration
         cuckoo --cwd ~/src/cuckoo/.conf init
         # Download community rules and more
