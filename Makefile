@@ -13,3 +13,6 @@ clean:
 test:
 	shellcheck -f checkstyle bin/*.sh > checkstyle.out || true
 
+update:
+	./bin/update.sh
+
