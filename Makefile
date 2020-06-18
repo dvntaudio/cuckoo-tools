@@ -11,7 +11,7 @@ clean:
 	./bin/clean.sh
 
 test:
-	shellcheck -f checkstyle bin/*.sh > checkstyle.out || true
+	/usr/bin/shellcheck -f checkstyle bin/*.sh > checkstyle.out || true
 
 update:
 	./bin/update.sh
