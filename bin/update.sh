@@ -27,7 +27,7 @@ fi
 
 LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 
-[ ! -z "$LAST_UPDATE_RULES" ] && update_rules
+[ -n "$LAST_UPDATE_RULES" ] && update_rules
 
 workon cuckoo
 pip install -U pip setuptools >> "$LOG" 2>&1

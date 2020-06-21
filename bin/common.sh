@@ -17,3 +17,8 @@ function info-message() {
 function error-message() {
     (>&2 echo "**** ERROR: $*")
 }
+
+function error-exit-message() {
+    (>&2 echo "**** ERROR: $*")
+    exit 1
+}

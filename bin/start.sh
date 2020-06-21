@@ -12,7 +12,7 @@ export CUCKOO
 # shellcheck disable=SC1091
 . /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
-if [ !  -z "$MOUNTP" ]; then
+if [  -n "$MOUNTP" ]; then
     if [ ! -d ~/shared ]; then
         mkdir ~/shared
     fi
@@ -39,7 +39,7 @@ fi
 
 LAST_UPDATE_RULES=$(find /etc/suricata/rules/tor.rules -mtime +1)
 
-if [ ! -z "$LAST_UPDATE_RULES" ]; then
+if [ -n "$LAST_UPDATE_RULES" ]; then
     info-message "Rules to old, updating."
     update_rules
 fi

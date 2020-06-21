@@ -9,7 +9,12 @@ touch "$LOG"
 sudo touch "$LOG"
 
 # shellcheck source=/dev/null
-[[ -e ~/cuckoo-tools/bin/common.sh ]] && . ~/cuckoo-tools/bin/common.sh || exit "Cant find common.sh."
+if [[ -e ~/cuckoo-tools/bin/common.sh ]]; then
+    . ~/cuckoo-tools/bin/common.sh
+else
+    echo  "Cant find common.sh."
+    exit 1
+fi
 
 info-message "Update apt packages for Debian"
 # shellcheck disable=SC2024
