@@ -59,18 +59,17 @@ Name the machine win7_x64 for the defaults in this repository to work. I will no
 
 Install some basic tools for Cuckoo. When IE starts remember to turn of SmartScreen Filter.
 
-* https://www.python.org/getit/ - Python 2.7.x. Install 32-bit version.
-* http://www.pythonware.com/products/pil/
-* https://raw.githubusercontent.com/cuckoosandbox/cuckoo/master/cuckoo/data/agent/agent.py
+* [https://www.python.org/getit/](https://www.python.org/getit/) - Python 2.7.x. Install 32-bit version.
+* [http://www.pythonware.com/products/pil/](http://www.pythonware.com/products/pil/)
+* [https://raw.githubusercontent.com/cuckoosandbox/cuckoo/master/cuckoo/data/agent/agent.py](https://raw.githubusercontent.com/cuckoosandbox/cuckoo/master/cuckoo/data/agent/agent.py)
 
 Save _agent.py_ as _agent.pyw_ and add it to the _Startup_ folder.
 
 Install some old apps. Examples below:
 
-* http://www.oldapps.com/java.php?old_java=15362?download - Java 7 Update 65 (x64)
-* http://www.oldapps.com/flash_player.php?old_flash_player=15631?download - Adobe Flash Player 15.0.0.152 (All Versions)
-* http://www.oldapps.com/adobe_reader.php?old_adobe=14774?download - Adobe Reader XI 11.0.07
-* http://www.oldapps.com/VLC_Player.php?old_vlc=12100?download - VLC Player 2.0.6 (x64)
+* [Java 7 Update 65 (x64)](http://www.oldapps.com/java.php?old_java=15362?download)
+* [Adobe Reader XI 11.0.07](http://www.oldapps.com/adobe_reader.php?old_adobe=14774?download)
+* [VLC Player 2.0.6 (x64)](http://www.oldapps.com/VLC_Player.php?old_vlc=12100?download)
 
 Remember to
 
