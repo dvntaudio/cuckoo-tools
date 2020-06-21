@@ -84,7 +84,7 @@ Remember to
 
 Other things to consider includes
 
-* Disable [Teredo](https://technet.microsoft.com/en-us/library/ee126159%28v=ws.10%29.aspx?f=255&MSPPError=-2147217396). Run * *netsh interface teredo* and *set state disabled*.
+* Disable [Teredo](https://technet.microsoft.com/en-us/library/ee126159%28v=ws.10%29.aspx?f=255&MSPPError=-2147217396). Run *netsh interface teredo* and *set state disabled*.
 
 Note the ip address and enter it in cuckoo/conf/kvm.conf.
 
@@ -110,4 +110,4 @@ Start Cuckoo:
 
     ./bin/start.sh
 
-To test your installation you can download malware from http://www.tekdefense.com/downloads/malware-samples/. I recommend [340s.exe.zip](http://www.tekdefense.com/downloads/malware-samples/340s.exe.zip) which should trigger some Suricata rules. The files are password protected with the password "infected".
+To test your installation you can download malware from [http://www.tekdefense.com/downloads/malware-samples/](http://www.tekdefense.com/downloads/malware-samples/). I recommend [340s.exe.zip](http://www.tekdefense.com/downloads/malware-samples/340s.exe.zip) which should trigger some Suricata rules. The files are password protected with the password "infected".
