@@ -1,5 +1,7 @@
 # cuckoo-tools
 
+![Linter](https://github.com/reuteras/cuckoo-tools/workflows/Linter/badge.svg)
+
 This a collection of scripts that installs Cuckoo 2.0 and required tools.
 
 ## Requirements
