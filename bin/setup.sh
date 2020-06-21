@@ -123,7 +123,7 @@ if [ ! -e ~/src/cuckoo/.conf/analyzer/windows/bin/cert.p12 ]; then
     mitmproxy >> ~/src/cuckoo/log/mitmproxy 2>&1 &
     MITM_PID=$!
     sleep 10
-    kill -9 $MITM_PID > /dev/null 2>&1 | true
+    kill -9 $MITM_PID > /dev/null 2>&1 || true
     cp ~/.mitmproxy/mitmproxy-ca-cert.p12 ~/src/cuckoo/.conf/analyzer/windows/bin/cert.p12
     sed -i -e 's/mitmdump, "-q",/mitmdump, "-q", "--no-http2",/' ~/.virtualenvs/cuckoo/lib/python2.7/site-packages/cuckoo/auxiliary/mitm.py
     #sed -i -e 's#/usr/local/bin/mitmdump#/usr/bin/mitmdump#' ~/.virtualenvs/cuckoo/lib/python2.7/site-packages/cuckoo/auxiliary/mitm.py
